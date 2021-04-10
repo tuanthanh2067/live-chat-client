@@ -1,10 +1,27 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 import Circle from "../Shapes/Circle";
 
 const Login = () => {
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
+      password: Yup.string().required("Password is required"),
+    }),
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
   return (
     <StyledLogin>
       <StyledContainer>
@@ -20,15 +37,18 @@ const Login = () => {
           <button>Learn more</button>
         </StyledBoxLeft>
         <StyledBoxRight>
-          <form>
+          <form onSubmit={formik.handleSubmit}>
             <h2>Log in</h2>
             <div>
               <input
                 type="email"
                 name="email"
                 placeholder="Enter your email..."
+                onChange={formik.handleChange}
+                value={formik.values.email}
                 required
               ></input>
+              <StyledError>{formik.errors.email}</StyledError>
             </div>
 
             <div>
@@ -36,8 +56,11 @@ const Login = () => {
                 type="password"
                 name="password"
                 placeholder="Enter your password..."
+                onChange={formik.handleChange}
+                value={formik.values.password}
                 required
               ></input>
+              <StyledError>{formik.errors.password}</StyledError>
             </div>
 
             <button className="btn btn-primary" type="submit">
@@ -199,6 +222,13 @@ const StyledBoxRight = styled.div`
       color: black;
     }
   }
+`;
+
+const StyledError = styled.p`
+  color: red;
+  padding-left: 0.75em;
+
+  font-size: 0.9em;
 `;
 
 export default Login;

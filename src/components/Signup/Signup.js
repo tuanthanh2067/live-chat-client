@@ -1,10 +1,40 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 import Circle from "../Shapes/Circle";
 
 const Signup = () => {
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      username: "",
+    },
+    validationSchema: Yup.object({
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Email is required"),
+      password: Yup.string()
+        .min(7, "Must be at least 7 characters")
+        .max(30, "Must be at most 30 characters")
+        .required("Password is required"),
+      confirmPassword: Yup.string().oneOf(
+        [Yup.ref("password"), null],
+        "Passwords must match"
+      ),
+      username: Yup.string()
+        .required("User name is required")
+        .min(7, "Must be at least 7 characters")
+        .max(15, "Must be at most 15 characters"),
+    }),
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
   return (
     <StyledSignup>
       <StyledContainer>
@@ -20,15 +50,18 @@ const Signup = () => {
           <button>Learn more</button>
         </StyledBoxLeft>
         <StyledBoxRight>
-          <form>
+          <form onSubmit={formik.handleSubmit}>
             <h2>Sign up</h2>
             <div>
               <input
                 type="email"
                 name="email"
                 placeholder="Enter your email..."
+                onChange={formik.handleChange}
+                value={formik.values.email}
                 required
               ></input>
+              <StyledError>{formik.errors.email}</StyledError>
             </div>
 
             <div>
@@ -36,8 +69,11 @@ const Signup = () => {
                 type="password"
                 name="password"
                 placeholder="Enter your password..."
+                onChange={formik.handleChange}
+                value={formik.values.password}
                 required
               ></input>
+              <StyledError>{formik.errors.password}</StyledError>
             </div>
 
             <div>
@@ -45,8 +81,11 @@ const Signup = () => {
                 type="password"
                 name="confirmPassword"
                 placeholder="Confirm your password..."
+                onChange={formik.handleChange}
+                value={formik.values.confirmPassword}
                 required
               ></input>
+              <StyledError>{formik.errors.confirmPassword}</StyledError>
             </div>
 
             <div>
@@ -54,8 +93,11 @@ const Signup = () => {
                 type="text"
                 name="username"
                 placeholder="Enter your name..."
+                onChange={formik.handleChange}
+                value={formik.values.username}
                 required
               ></input>
+              <StyledError>{formik.errors.username}</StyledError>
             </div>
 
             <button className="btn btn-primary" type="submit">
@@ -187,7 +229,7 @@ const StyledBoxRight = styled.div`
     width: 100%;
 
     div {
-      margin: 1.5em 0em;
+      margin: 1em 0em;
     }
 
     input {
@@ -205,7 +247,7 @@ const StyledBoxRight = styled.div`
       width: 100%;
       border-radius: 24px;
       padding: 0.75em;
-      margin: 1.5em 0em;
+      margin: 1em 0em;
 
       /* box-shadow: 1px 6px 8px 0 rgb(220, 220, 220); */
 
@@ -216,5 +258,12 @@ const StyledBoxRight = styled.div`
       color: black;
     }
   }
+`;
+
+const StyledError = styled.p`
+  color: red;
+  padding-left: 0.75em;
+
+  font-size: 0.9em;
 `;
 export default Signup;
