@@ -1,4 +1,10 @@
-const Circle = ({ top = 0, right = 0, color = "white", size = 24 }) => {
+const Circle = ({
+  top = 0,
+  right = 0,
+  color = "white",
+  size = 24,
+  zIndex = 1,
+}) => {
   return (
     <div>
       <svg
@@ -10,6 +16,7 @@ const Circle = ({ top = 0, right = 0, color = "white", size = 24 }) => {
           fill: color,
           width: size,
           height: size,
+          zIndex: zIndex,
           transform: `translate(${right}, ${top})`,
           position: "absolute",
         }}

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 import Circle from "../Shapes/Circle";
 
@@ -43,6 +44,10 @@ const Login = () => {
               LOGIN
             </button>
           </form>
+
+          <div>
+            <Link to="/signup">Don't have an account?</Link>
+          </div>
         </StyledBoxRight>
         <Circle top="10%" right="50%" size="80" />
         <Circle top="68%" right="50%" size="80" color="#1082eb" />
@@ -55,11 +60,23 @@ const StyledLogin = styled.div`
   width: 100%;
   height: 100%;
 
-  background: rgb(230, 230, 230);
+  overflow: hidden;
+
+  background: rgb(240, 240, 240);
 
   display: flex;
   align-items: center;
   justify-content: center;
+
+  position: relative;
+
+  img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 350px;
+    height: 350px;
+  }
 `;
 
 const StyledContainer = styled.div`
@@ -83,6 +100,20 @@ const StyledBoxLeft = styled.div`
   color: white;
   border-top-left-radius: 24px;
   border-bottom-left-radius: 24px;
+
+  h2 {
+    position: relative;
+    ::after {
+      bottom: -8px;
+      left: 0%;
+      content: "";
+      position: absolute;
+      width: 150px;
+      height: 4px;
+      background: white;
+      border-radius: 50px;
+    }
+  }
 
   * {
     margin: 0.5em 0em;
@@ -120,6 +151,18 @@ const StyledBoxRight = styled.div`
 
   h2 {
     text-align: center;
+    position: relative;
+    ::after {
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      content: "";
+      position: absolute;
+      width: 50px;
+      height: 4px;
+      background: #1082eb;
+      border-radius: 50px;
+    }
   }
 
   form {
@@ -129,7 +172,8 @@ const StyledBoxRight = styled.div`
       margin: 1.5em 0em;
     }
 
-    input {
+    input[type="email"],
+    input[type="password"] {
       width: 100%;
 
       border: none;
@@ -146,17 +190,15 @@ const StyledBoxRight = styled.div`
       padding: 0.75em;
       margin: 1.5em 0em;
 
-      box-shadow: 1px 6px 8px 0 rgb(220, 220, 220);
+      /* box-shadow: 1px 6px 8px 0 rgb(220, 220, 220); */
 
       transition: ease 0.45s all;
-
-      :hover {
-        background: white;
-        color: black;
-        border: 1px solid grey;
-        box-shadow: none;
-      }
+      background: white;
+      border: 1px solid grey;
+      box-shadow: none;
+      color: black;
     }
   }
 `;
+
 export default Login;
