@@ -9,6 +9,7 @@
     "axios": "^0.21.1",
     "bootstrap": "^4.6.0",
     "formik": "^2.2.6",
+    "jwt-decode": "^3.1.2",
     "react": "^17.0.2",
     "react-bootstrap": "^1.5.2",
     "react-dom": "^17.0.2",
@@ -35,7 +36,7 @@
       "react-app/jest"
     ]
   },
-  "proxy": "https://gossip-live-chat-server.herokuapp.com",
+  "proxy": "http://localhost:5000",
   "browserslist": {
     "production": [
       ">0.2%",
