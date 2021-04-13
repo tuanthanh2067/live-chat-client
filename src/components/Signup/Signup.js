@@ -1,18 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import {
+  uniqueNamesGenerator,
+  adjectives,
+  colors,
+  animals,
+} from "unique-names-generator";
+
+// redux
+import { useDispatch, useSelector } from "react-redux";
+import { signupUser } from "../../redux/actions/userActions";
+
+import Pen from "../../assets/png/pen.png";
 
 import Circle from "../Shapes/Circle";
+import Loading from "../Loading/Loading";
 
 const Signup = () => {
+  const [signupTouched, setSignupTouched] = useState(false);
+
+  const loading = useSelector((state) => state.UI.loading);
+  const errors = useSelector((state) => state.UI.errors);
+  const messages = useSelector((state) => state.UI.messages);
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
       confirmPassword: "",
-      username: "",
+      userName: "",
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -26,15 +46,24 @@ const Signup = () => {
         [Yup.ref("password"), null],
         "Passwords must match"
       ),
-      username: Yup.string()
+      userName: Yup.string()
         .required("User name is required")
         .min(7, "Must be at least 7 characters")
-        .max(15, "Must be at most 15 characters"),
+        .max(30, "Must be at most 30 characters"),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      setSignupTouched(true);
+      dispatch(signupUser(values));
     },
   });
+
+  const autoUserNameGenerator = () => {
+    const randomName = uniqueNamesGenerator({
+      dictionaries: [adjectives, colors, animals],
+    });
+    formik.setFieldValue("userName", randomName);
+  };
+
   return (
     <StyledSignup>
       <StyledContainer>
@@ -88,20 +117,38 @@ const Signup = () => {
               <StyledError>{formik.errors.confirmPassword}</StyledError>
             </div>
 
-            <div>
+            <StyledUserName>
               <input
                 type="text"
-                name="username"
-                placeholder="Enter your name..."
+                name="userName"
+                placeholder="Your unique user name..."
                 onChange={formik.handleChange}
-                value={formik.values.username}
+                value={formik.values.userName}
                 required
               ></input>
-              <StyledError>{formik.errors.username}</StyledError>
-            </div>
 
-            <button className="btn btn-primary" type="submit">
-              SIGNUP
+              <img
+                src={Pen}
+                alt="auto-generate"
+                onClick={autoUserNameGenerator}
+              ></img>
+
+              <StyledError>{formik.errors.userName}</StyledError>
+            </StyledUserName>
+
+            {signupTouched && (
+              <>
+                <StyledError>{errors}</StyledError>
+                <StyledMessage>{messages}</StyledMessage>
+              </>
+            )}
+
+            <button
+              className="btn btn-primary"
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? <Loading /> : "SIGNUP"}
             </button>
           </form>
 
@@ -260,8 +307,28 @@ const StyledBoxRight = styled.div`
   }
 `;
 
+const StyledUserName = styled.div`
+  position: relative;
+
+  img {
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 25%;
+    left: 100%;
+  }
+`;
+
 const StyledError = styled.p`
   color: red;
+  padding-left: 0.75em;
+
+  font-size: 0.9em;
+`;
+
+const StyledMessage = styled.p`
+  color: green;
   padding-left: 0.75em;
 
   font-size: 0.9em;

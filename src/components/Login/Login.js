@@ -1,12 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
+// redux
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../../redux/actions/userActions";
+
 import Circle from "../Shapes/Circle";
 
+import Loading from "../Loading/Loading";
+
 const Login = () => {
+  const history = useHistory();
+
+  const [loginTouched, setLoginTouched] = useState(false);
+
+  const loading = useSelector((state) => state.UI.loading);
+  const errors = useSelector((state) => state.UI.errors);
+  const dispatch = useDispatch();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -19,7 +33,8 @@ const Login = () => {
       password: Yup.string().required("Password is required"),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      setLoginTouched(true);
+      dispatch(loginUser(values, history));
     },
   });
   return (
@@ -63,8 +78,14 @@ const Login = () => {
               <StyledError>{formik.errors.password}</StyledError>
             </div>
 
-            <button className="btn btn-primary" type="submit">
-              LOGIN
+            {loginTouched && <StyledError>{errors}</StyledError>}
+
+            <button
+              className="btn btn-primary"
+              type="submit"
+              disabled={loading}
+            >
+              {loading ? <Loading /> : "LOGIN"}
             </button>
           </form>
 
@@ -192,7 +213,7 @@ const StyledBoxRight = styled.div`
     width: 100%;
 
     div {
-      margin: 1.5em 0em;
+      margin: 1.25em 0em;
     }
 
     input[type="email"],
@@ -211,7 +232,7 @@ const StyledBoxRight = styled.div`
       width: 100%;
       border-radius: 24px;
       padding: 0.75em;
-      margin: 1.5em 0em;
+      margin: 0.75em 0em;
 
       /* box-shadow: 1px 6px 8px 0 rgb(220, 220, 220); */
 
