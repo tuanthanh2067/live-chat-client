@@ -10,6 +10,11 @@ import { lightTheme, darkTheme } from "./helper/themes";
 import Login from "./components/Login/Login";
 import Signup from "./components/Signup/Signup";
 import Home from "./components/Home/Home";
+import Favorites from "./components/Favorites/Favorites";
+import Profile from "./components/Profile/Profile";
+import Notifications from "./components/Notifications/Notifications";
+import About from "./components/About/About";
+import Settings from "./components/Settings/Settings";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
@@ -52,6 +57,11 @@ function App() {
             {authenticated ? <Redirect to="/" /> : <Signup />}
           </Route>
           <GuardedRoute path="/" exact component={Home} />
+          <GuardedRoute path="/favorites" exact component={Favorites} />
+          <GuardedRoute path="/profile" exact component={Profile} />
+          <GuardedRoute path="/notifications" exact component={Notifications} />
+          <GuardedRoute path="/about" exact component={About} />
+          <GuardedRoute path="/settings" exact component={Settings} />
           <Route render={() => <h1>404 Not Found</h1>} />
         </Switch>
       </StyledApp>
