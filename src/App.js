@@ -15,6 +15,8 @@ import Profile from "./components/Profile/Profile";
 import Notifications from "./components/Notifications/Notifications";
 import About from "./components/About/About";
 import Settings from "./components/Settings/Settings";
+import ToolBar from "./components/ToolBar/ToolBar";
+import Header from "./components/Header/Header";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
@@ -44,24 +46,43 @@ function App() {
   }
 
   const authenticated = useSelector((state) => state.user.authenticated);
-  console.log(authenticated);
 
   return (
     <ThemeProvider theme={themeMode}>
       <StyledApp>
         <Switch>
+          <Route path="/" exact>
+            {authenticated ? <Redirect to="/home" /> : <Redirect to="/login" />}
+          </Route>
+
           <Route path="/login">
-            {authenticated ? <Redirect to="/" /> : <Login />}
+            {authenticated ? <Redirect to="/home" /> : <Login />}
           </Route>
+
           <Route path="/signup">
-            {authenticated ? <Redirect to="/" /> : <Signup />}
+            {authenticated ? <Redirect to="/home" /> : <Signup />}
           </Route>
-          <GuardedRoute path="/" exact component={Home} />
-          <GuardedRoute path="/favorites" exact component={Favorites} />
-          <GuardedRoute path="/profile" exact component={Profile} />
-          <GuardedRoute path="/notifications" exact component={Notifications} />
-          <GuardedRoute path="/about" exact component={About} />
-          <GuardedRoute path="/settings" exact component={Settings} />
+
+          <StyledHome>
+            <StyledMain>
+              <ToolBar />
+
+              <StyledWindow>
+                <Header />
+                <GuardedRoute path="/profile" exact component={Profile} />
+                <GuardedRoute path="/favorites" exact component={Favorites} />
+                <GuardedRoute path="/home" exact component={Home} />
+                <GuardedRoute path="/settings" exact component={Settings} />
+                <GuardedRoute path="/about" exact component={About} />
+                <GuardedRoute
+                  path="/notifications"
+                  exact
+                  component={Notifications}
+                />
+              </StyledWindow>
+            </StyledMain>
+          </StyledHome>
+
           <Route render={() => <h1>404 Not Found</h1>} />
         </Switch>
       </StyledApp>
@@ -75,6 +96,36 @@ const StyledApp = styled.div`
 
   width: 100%;
   height: 100%;
+`;
+
+const StyledHome = styled.div`
+  width: 100%;
+  height: 100%;
+
+  background: #171726;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledMain = styled.div`
+  max-width: 1300px;
+  width: 100%;
+  height: 96%;
+  margin: auto;
+  background: #202136;
+  display: flex;
+  align-items: center;
+
+  border: 1px solid #373759;
+  border-radius: 24px;
+`;
+
+const StyledWindow = styled.div`
+  display: flex;
+  height: 96%;
+  width: 100%;
+  padding: 0em 1.5em;
 `;
 
 export default App;

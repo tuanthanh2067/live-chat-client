@@ -10,7 +10,7 @@ const ToolBar = () => {
         <img src={Gossip} alt="gossip-img" />
       </StyledLogo>
       <StyledTools>
-        <NavLink to="/" activeClassName="selected">
+        <NavLink to="/home" activeClassName="selected">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
