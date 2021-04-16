@@ -47,6 +47,10 @@ const StyledHeader = styled.div`
 `;
 
 const StyledInfo = styled.div`
+  * {
+    margin-bottom: 0px;
+  }
+
   p {
     color: rgb(150, 150, 150);
   }

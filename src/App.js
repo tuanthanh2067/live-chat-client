@@ -63,7 +63,7 @@ function App() {
             {authenticated ? <Redirect to="/home" /> : <Signup />}
           </Route>
 
-          <StyledHome>
+          <StyledContainer>
             <StyledMain>
               <ToolBar />
 
@@ -81,7 +81,7 @@ function App() {
                 />
               </StyledWindow>
             </StyledMain>
-          </StyledHome>
+          </StyledContainer>
 
           <Route render={() => <h1>404 Not Found</h1>} />
         </Switch>
@@ -98,7 +98,7 @@ const StyledApp = styled.div`
   height: 100%;
 `;
 
-const StyledHome = styled.div`
+const StyledContainer = styled.div`
   width: 100%;
   height: 100%;
 
@@ -123,6 +123,8 @@ const StyledMain = styled.div`
 
 const StyledWindow = styled.div`
   display: flex;
+  flex-direction: column;
+
   height: 96%;
   width: 100%;
   padding: 0em 1.5em;
