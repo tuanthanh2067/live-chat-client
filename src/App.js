@@ -17,6 +17,7 @@ import About from "./components/About/About";
 import Settings from "./components/Settings/Settings";
 import ToolBar from "./components/ToolBar/ToolBar";
 import Header from "./components/Header/Header";
+import CreateRoom from "./components/Room/CreateRoom";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
@@ -69,6 +70,11 @@ function App() {
 
               <StyledWindow>
                 <Header />
+                <GuardedRoute
+                  path="/create-room"
+                  exact
+                  component={CreateRoom}
+                />
                 <GuardedRoute path="/profile" exact component={Profile} />
                 <GuardedRoute path="/favorites" exact component={Favorites} />
                 <GuardedRoute path="/home" exact component={Home} />
