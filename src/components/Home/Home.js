@@ -1,36 +1,26 @@
 import styled from "styled-components";
-import HorizontalScroll from "react-scroll-horizontal";
 
-import Room from "../Room/Room";
-import MinimalProfile from "../Profile/MinimalProfile";
+import RoomSector from "../Room/RoomSector";
+import ProfileSector from "../Profile/ProfileSector";
 
 const Home = () => {
   let list = [];
   for (let i = 0; i < 10; i++) {
-    list.push(<Room key={i} />);
+    list.push(i);
   }
 
   let listPeople = [];
   for (let j = 0; j < 50; j++) {
-    listPeople.push(<MinimalProfile />);
+    listPeople.push(j);
   }
 
   return (
     <StyledHome>
-      <StyledPopular>
-        <h2>Popular</h2>
+      <RoomSector title="Popular" rooms={list} />
 
-        <StyledPopularRooms>
-          <HorizontalScroll>{list}</HorizontalScroll>
-        </StyledPopularRooms>
-      </StyledPopular>
+      <ProfileSector title="Active gossiper" profiles={listPeople} />
 
-      <StyledActive>
-        <h2>Active gossiper</h2>
-        <StyledActiveUsers>
-          <HorizontalScroll>{listPeople}</HorizontalScroll>
-        </StyledActiveUsers>
-      </StyledActive>
+      <RoomSector title="Rooms you created" rooms={list} />
     </StyledHome>
   );
 };
@@ -38,33 +28,9 @@ const Home = () => {
 const StyledHome = styled.div`
   width: 100%;
   height: 100%;
-`;
 
-const StyledPopular = styled.div`
-  margin: 1.25em 0em;
-  & > h2 {
-    color: white;
-    margin-bottom: 0.5em;
-  }
-`;
-
-const StyledPopularRooms = styled.div`
-  width: 100%;
-  height: 220px;
   & > div {
-    margin-right: 3em;
-  }
-`;
-
-const StyledActiveUsers = styled.div`
-  width: 100%;
-  height: 50px;
-`;
-
-const StyledActive = styled.div`
-  & > h2 {
-    color: white;
-    margin-bottom: 0.5em;
+    margin: 1em 0em 3em 0em;
   }
 `;
 

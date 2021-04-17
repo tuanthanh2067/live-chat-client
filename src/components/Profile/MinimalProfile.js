@@ -23,6 +23,7 @@ const StyledMinimalProfile = styled.div`
   color: white;
 
   & > div {
+    width: 100%;
     margin-left: 0.45em;
   }
 
@@ -32,6 +33,10 @@ const StyledMinimalProfile = styled.div`
 
   h5 {
     font-size: 0.95em;
+    width: 90%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   p {

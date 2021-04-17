@@ -108,7 +108,6 @@ const StyledTools = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3em;
 
   .selected {
     svg {

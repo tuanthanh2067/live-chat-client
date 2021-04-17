@@ -46,7 +46,6 @@ const StyledRoom = styled.div`
 
   :hover {
     width: 400px;
-    height: 220px;
   }
 
   * {
