@@ -23,6 +23,17 @@ const Room = () => {
               <StyledGreenDot></StyledGreenDot>
               <p>20</p>
             </StyledRoomNumber>
+            <StyledRoomNumber>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+              >
+                <path d="M12 4.248c-3.148-5.402-12-3.825-12 2.944 0 4.661 5.571 9.427 12 15.808 6.43-6.381 12-11.147 12-15.808 0-6.792-8.875-8.306-12-2.944z" />
+              </svg>
+              <p>5</p>
+            </StyledRoomNumber>
           </StyledRoomInfo>
           <StyledRoomId>#11155513</StyledRoomId>
         </StyledRoomAccess>
@@ -99,6 +110,13 @@ const StyledRoomNumber = styled.div`
   p {
     font-size: 0.9em;
   }
+  svg {
+    width: 12px;
+    height: 12px;
+    fill: red;
+    display: inline-block;
+    margin-right: 0.25em;
+  }
 `;
 
 const StyledGreenDot = styled.span`
@@ -106,7 +124,7 @@ const StyledGreenDot = styled.span`
   height: 10px;
   border-radius: 50%;
   display: inline-block;
-  background: green;
+  background: #17bf44;
   margin-right: 0.25em;
 `;
 

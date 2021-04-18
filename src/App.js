@@ -18,6 +18,7 @@ import Settings from "./components/Settings/Settings";
 import ToolBar from "./components/ToolBar/ToolBar";
 import Header from "./components/Header/Header";
 import CreateRoom from "./components/Room/CreateRoom";
+import ChatWindow from "./components/Chat/ChatWindow/ChatWindow";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
@@ -75,6 +76,7 @@ function App() {
                   exact
                   component={CreateRoom}
                 />
+                <GuardedRoute path="/room/:id" exact component={ChatWindow} />
                 <GuardedRoute path="/profile" exact component={Profile} />
                 <GuardedRoute path="/favorites" exact component={Favorites} />
                 <GuardedRoute path="/home" exact component={Home} />
