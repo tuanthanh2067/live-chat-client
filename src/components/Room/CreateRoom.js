@@ -1,9 +1,19 @@
 import styled from "styled-components";
-
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+
+import { createRoom } from "../../redux/actions/dataActions";
+import Loading from "../Loading/Loading";
 
 const CreateRoom = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const loading = useSelector((state) => state.UI.loading);
+  const errors = useSelector((state) => state.UI.errors);
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -17,11 +27,11 @@ const CreateRoom = () => {
       visibility: Yup.string().required("Visibility is required"),
       max: Yup.number()
         .typeError("Value must be a number")
-        .required("This field is required")
         .positive("Must be more than zero"),
     }),
     onSubmit: (values) => {
-      console.log(values);
+      // convert the string number to number before forward it to server
+      dispatch(createRoom(values, history));
     },
   });
 
@@ -77,7 +87,8 @@ const CreateRoom = () => {
           <StyledError>{formik.errors.max}</StyledError>
         </StyledFormGroup>
 
-        <input type="submit" value="Create now"></input>
+        <button type="submit">{loading ? <Loading /> : "Create now"}</button>
+        <StyledError>{errors && `Oops! ${errors}`}</StyledError>
       </StyledForm>
     </StyledCreateRoom>
   );
@@ -94,7 +105,7 @@ const StyledForm = styled.form`
   width: 60%;
   height: 100%;
 
-  input[type="submit"] {
+  button {
     padding: 12px 32px;
     background: transparent;
     border: 1px solid grey;
