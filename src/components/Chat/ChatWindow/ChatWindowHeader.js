@@ -2,14 +2,14 @@ import styled from "styled-components";
 
 import ThemePark from "../../../assets/jpg/theme-park.jpg";
 
-const ChatWindowHeader = () => {
+const ChatWindowHeader = ({ clients }) => {
   return (
     <StyledChatWindowHeader>
       <StyledLeft>
         <img src={ThemePark} alt="room-img"></img>
         <div>
           <h5>Javascript</h5>
-          <p>50 active</p>
+          <p>{clients} active</p>
         </div>
       </StyledLeft>
       <StyledRight>

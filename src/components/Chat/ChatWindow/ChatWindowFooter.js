@@ -1,10 +1,17 @@
 import styled from "styled-components";
 
-const ChatWindowFooter = () => {
+const ChatWindowFooter = ({ onSent, chat, setChat }) => {
   return (
     <StyledChatWindowFooter>
-      <form>
-        <input type="text" placeholder="Aa" />
+      <form onSubmit={onSent}>
+        <input
+          type="text"
+          placeholder="Aa"
+          value={chat}
+          onChange={(e) => {
+            setChat(e.target.value);
+          }}
+        />
 
         <button type="submit">
           <svg

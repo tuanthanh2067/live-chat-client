@@ -1,13 +1,18 @@
 import styled from "styled-components";
 
 import Message from "./Message";
+import Notification from "./Notification";
 
-const ChatWindowBody = () => {
+const ChatWindowBody = ({ messages }) => {
   return (
     <StyledChatWindowBody>
-      <Message />
-      <Message />
-      <Message />
+      {messages.map((message, idx) => {
+        return message.name !== "BOT" ? (
+          <Message key={idx} message={message} />
+        ) : (
+          <Notification key={idx} notification={message} />
+        );
+      })}
     </StyledChatWindowBody>
   );
 };
