@@ -20,6 +20,9 @@ import Header from "./components/Header/Header";
 import CreateRoom from "./components/Room/CreateRoom";
 import ChatWindow from "./components/Chat/ChatWindow/ChatWindow";
 
+// socket context
+import { SocketProvider } from "./context/socketContext";
+
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { getUserData, logoutUser } from "./redux/actions/userActions";
@@ -51,49 +54,55 @@ function App() {
 
   return (
     <ThemeProvider theme={themeMode}>
-      <StyledApp>
-        <Switch>
-          <Route path="/" exact>
-            {authenticated ? <Redirect to="/home" /> : <Redirect to="/login" />}
-          </Route>
+      <SocketProvider>
+        <StyledApp>
+          <Switch>
+            <Route path="/" exact>
+              {authenticated ? (
+                <Redirect to="/home" />
+              ) : (
+                <Redirect to="/login" />
+              )}
+            </Route>
 
-          <Route path="/login">
-            {authenticated ? <Redirect to="/home" /> : <Login />}
-          </Route>
+            <Route path="/login">
+              {authenticated ? <Redirect to="/home" /> : <Login />}
+            </Route>
 
-          <Route path="/signup">
-            {authenticated ? <Redirect to="/home" /> : <Signup />}
-          </Route>
+            <Route path="/signup">
+              {authenticated ? <Redirect to="/home" /> : <Signup />}
+            </Route>
 
-          <StyledContainer>
-            <StyledMain>
-              <ToolBar />
+            <StyledContainer>
+              <StyledMain>
+                <ToolBar />
 
-              <StyledWindow>
-                <Header />
-                <GuardedRoute
-                  path="/create-room"
-                  exact
-                  component={CreateRoom}
-                />
-                <GuardedRoute path="/room/:id" exact component={ChatWindow} />
-                <GuardedRoute path="/profile" exact component={Profile} />
-                <GuardedRoute path="/favorites" exact component={Favorites} />
-                <GuardedRoute path="/home" exact component={Home} />
-                <GuardedRoute path="/settings" exact component={Settings} />
-                <GuardedRoute path="/about" exact component={About} />
-                <GuardedRoute
-                  path="/notifications"
-                  exact
-                  component={Notifications}
-                />
-              </StyledWindow>
-            </StyledMain>
-          </StyledContainer>
+                <StyledWindow>
+                  <Header />
+                  <GuardedRoute
+                    path="/create-room"
+                    exact
+                    component={CreateRoom}
+                  />
+                  <GuardedRoute path="/room/:id" exact component={ChatWindow} />
+                  <GuardedRoute path="/profile" exact component={Profile} />
+                  <GuardedRoute path="/favorites" exact component={Favorites} />
+                  <GuardedRoute path="/home" exact component={Home} />
+                  <GuardedRoute path="/settings" exact component={Settings} />
+                  <GuardedRoute path="/about" exact component={About} />
+                  <GuardedRoute
+                    path="/notifications"
+                    exact
+                    component={Notifications}
+                  />
+                </StyledWindow>
+              </StyledMain>
+            </StyledContainer>
 
-          <Route render={() => <h1>404 Not Found</h1>} />
-        </Switch>
-      </StyledApp>
+            <Route render={() => <h1>404 Not Found</h1>} />
+          </Switch>
+        </StyledApp>
+      </SocketProvider>
     </ThemeProvider>
   );
 }

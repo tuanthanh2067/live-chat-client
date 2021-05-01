@@ -10,7 +10,7 @@ import {
 } from "../types";
 
 import axios from "axios";
-import { API_URL } from "../../../config/index";
+import { API_URL } from "../../config/index";
 
 const setAuthorizationHeader = (token) => {
   const userToken = `Bearer ${token}`;

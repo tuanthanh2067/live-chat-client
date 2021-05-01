@@ -1,6 +1,6 @@
 import axios from "axios";
 import { LOADING_UI, CREATE_ROOM, CLEAR_ERRORS, SET_ERRORS } from "../types";
-import { API_URL } from "../../../config/index";
+import { API_URL } from "../../config/index";
 
 export const createRoom = (newRoom, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });

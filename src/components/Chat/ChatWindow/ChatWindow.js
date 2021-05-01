@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { useState, useEffect, useRef } from "react";
-import SocketIOClient from "socket.io-client";
+import { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
@@ -8,21 +7,24 @@ import ChatWindowHeader from "./ChatWindowHeader";
 import ChatWindowFooter from "./ChatWindowFooter";
 import ChatWindowBody from "./ChatWindowBody";
 
+// context
+import { SocketContext } from "../../../context/socketContext";
+
 const ChatWindow = () => {
   const [clients, setClients] = useState(0);
   const [chat, setChat] = useState("");
   const [messages, setMessages] = useState([]);
 
+  const socket = useContext(SocketContext);
+
   const userName = useSelector((state) => state.user.userName);
   const userId = useSelector((state) => state.user.userId);
   const { id } = useParams();
 
-  let socketRef = useRef();
-
   const handleSend = (e) => {
     e.preventDefault();
 
-    socketRef.current.emit("sendMessage", { userName, chat });
+    socket.emit("sendMessage", { userName, chat });
 
     setMessages([...messages], { userName, chat, me: true });
 
@@ -31,15 +33,15 @@ const ChatWindow = () => {
 
   useEffect(() => {
     if (userName && userId) {
-      socketRef.current = SocketIOClient("http://localhost:5000");
-
-      socketRef.current.emit("switchRoom", {
+      socket.emit("switchRoom", {
         id: userId,
         name: userName,
         newRoom: id,
       });
 
-      socketRef.current.on("init", ({ messages }) => {
+      socket.emit("init", { roomId: id });
+
+      socket.on("init", ({ messages }) => {
         const AuthMessages = messages.map((message) => ({
           name: message.name,
           text: message.text,
@@ -48,26 +50,26 @@ const ChatWindow = () => {
         setMessages(AuthMessages.reverse());
       });
 
-      socketRef.current.emit("count", { roomId: id });
+      socket.emit("count", { roomId: id });
 
-      socketRef.current.on("count", ({ clients }) => {
+      socket.on("count", ({ clients }) => {
         setClients(clients);
       });
 
-      socketRef.current.on("message", ({ name, text }) => {
+      socket.on("message", ({ name, text }) => {
         setMessages((messages) => [
           ...messages,
           { name: name, text: text, me: name === userName },
         ]);
       });
 
-      socketRef.current.on("notification", ({ title }) => {
+      socket.on("notification", ({ title }) => {
         setMessages((messages) => [...messages, { name: "BOT", text: title }]);
       });
 
-      return () => socketRef.current.disconnect();
+      return () => socket.disconnect();
     }
-  }, [userName, userId, id]);
+  }, [userName, userId, id, socket]);
 
   return (
     <StyledChatWindow>
