@@ -2,9 +2,18 @@ import styled from "styled-components";
 
 import ThemePark from "../../assets/jpg/theme-park.jpg";
 
-const Room = () => {
+const Room = ({
+  img,
+  name,
+  description,
+  total,
+  online,
+  like,
+  id,
+  expandable = true,
+}) => {
   return (
-    <StyledRoom>
+    <StyledRoom expandable={expandable}>
       <img src={ThemePark} alt="room-img"></img>
       <StyledInfo>
         <h4>League of legends</h4>
@@ -56,7 +65,7 @@ const StyledRoom = styled.div`
   transition: ease 0.25s all;
 
   :hover {
-    width: 400px;
+    ${(props) => props.expandable && `width: 400px;`}
   }
 
   * {
