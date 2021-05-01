@@ -45,7 +45,7 @@ const ChatWindow = () => {
           text: message.text,
           me: message.name === userName,
         }));
-        setMessages(AuthMessages);
+        setMessages(AuthMessages.reverse());
       });
 
       socketRef.current.emit("count", { roomId: id });

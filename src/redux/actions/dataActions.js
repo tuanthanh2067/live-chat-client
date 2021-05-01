@@ -1,11 +1,12 @@
 import axios from "axios";
 import { LOADING_UI, CREATE_ROOM, CLEAR_ERRORS, SET_ERRORS } from "../types";
+import { API_URL } from "../../../config/index";
 
 export const createRoom = (newRoom, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   if (newRoom.max === "") newRoom.max = 300;
   axios
-    .post("/rooms/create", newRoom)
+    .post(`${API_URL}/rooms/create`, newRoom)
     .then((res) => {
       dispatch({
         type: CREATE_ROOM,

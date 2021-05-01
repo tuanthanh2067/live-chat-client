@@ -10,6 +10,7 @@ import {
 } from "../types";
 
 import axios from "axios";
+import { API_URL } from "../../../config/index";
 
 const setAuthorizationHeader = (token) => {
   const userToken = `Bearer ${token}`;
@@ -21,7 +22,7 @@ const setAuthorizationHeader = (token) => {
 export const getUserData = () => (dispatch) => {
   dispatch({ type: LOADING_USER });
   axios
-    .get("/users/user")
+    .get(`${API_URL}/users/user`)
     .then((res) => {
       dispatch({
         type: SET_USER,
@@ -39,7 +40,7 @@ export const loginUser = (userData, history) => (dispatch) => {
   dispatch({ type: LOADING_UI });
 
   axios
-    .post("/auth/login", userData)
+    .post(`${API_URL}/auth/login`, userData)
     .then((res) => {
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
@@ -60,7 +61,7 @@ export const signupUser = (newUserData) => (dispatch) => {
   dispatch({ type: LOADING_UI });
 
   axios
-    .post("/auth/signup", newUserData)
+    .post(`${API_URL}/auth/signup`, newUserData)
     .then((res) => {
       dispatch({ type: CLEAR_ERRORS });
       dispatch({ type: SET_MESSAGES, payload: res.data.message });
