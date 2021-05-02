@@ -83,7 +83,7 @@ const ToolBar = () => {
 const StyledToolBar = styled.div`
   display: flex;
   flex-direction: column;
-  width: 90px;
+  min-width: 90px;
   margin-left: 0.5em;
   height: 96%;
   border-radius: 40px;

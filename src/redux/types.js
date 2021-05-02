@@ -15,3 +15,5 @@ export const CLEAR_MESSAGES = "CLEAR_MESSAGES";
 
 // data reducer types
 export const CREATE_ROOM = "CREATE_ROOM";
+export const GET_POPULAR_ROOMS = "GET_POPULAR_ROOMS";
+export const GET_YOUR_ROOMS = "GET_YOUR_ROOMS";

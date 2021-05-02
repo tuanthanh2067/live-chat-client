@@ -1,36 +1,28 @@
 import styled from "styled-components";
 
-import ThemePark from "../../assets/jpg/theme-park.jpg";
-
 const Room = ({
-  img,
-  name,
-  description,
-  total,
-  online,
-  like,
-  id,
+  room: {
+    imagePath,
+    dateCreated,
+    description,
+    likeAmount,
+    members,
+    roomId,
+    roomName,
+  },
   expandable = true,
 }) => {
   return (
     <StyledRoom expandable={expandable}>
-      <img src={ThemePark} alt="room-img"></img>
+      <img src={imagePath} alt="room-img"></img>
       <StyledInfo>
-        <h4>League of legends</h4>
-        <StyledDescription>
-          Lorem Ipsum is simply dummy text of the printing and typesetting
-          industry. Lorem Ipsum has been the industry's standard dummy text ever
-          since the 1500s
-        </StyledDescription>
+        <h4>{roomName}</h4>
+        <StyledDescription>{description}</StyledDescription>
         <StyledRoomAccess>
           <StyledRoomInfo>
             <StyledRoomNumber>
-              <StyledGreyDot></StyledGreyDot>
-              <p>50</p>
-            </StyledRoomNumber>
-            <StyledRoomNumber>
               <StyledGreenDot></StyledGreenDot>
-              <p>20</p>
+              <p>{members.length}</p>
             </StyledRoomNumber>
             <StyledRoomNumber>
               <svg
@@ -41,10 +33,10 @@ const Room = ({
               >
                 <path d="M12 4.248c-3.148-5.402-12-3.825-12 2.944 0 4.661 5.571 9.427 12 15.808 6.43-6.381 12-11.147 12-15.808 0-6.792-8.875-8.306-12-2.944z" />
               </svg>
-              <p>5</p>
+              <p>{likeAmount}</p>
             </StyledRoomNumber>
           </StyledRoomInfo>
-          <StyledRoomId>#11155513</StyledRoomId>
+          <StyledRoomId>#{roomId}</StyledRoomId>
         </StyledRoomAccess>
       </StyledInfo>
     </StyledRoom>
@@ -52,8 +44,7 @@ const Room = ({
 };
 
 const StyledRoom = styled.div`
-  min-width: 250px;
-  width: 260px;
+  min-width: 260px;
   height: 200px;
   background: #27273f;
   color: white;
@@ -61,12 +52,7 @@ const StyledRoom = styled.div`
   border: 1px solid #373759;
   overflow: hidden;
   cursor: pointer;
-  margin-right: 1.5em;
   transition: ease 0.25s all;
-
-  :hover {
-    ${(props) => props.expandable && `width: 400px;`}
-  }
 
   * {
     margin-bottom: 0;
@@ -134,15 +120,6 @@ const StyledGreenDot = styled.span`
   border-radius: 50%;
   display: inline-block;
   background: #17bf44;
-  margin-right: 0.25em;
-`;
-
-const StyledGreyDot = styled.span`
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  display: inline-block;
-  background: grey;
   margin-right: 0.25em;
 `;
 

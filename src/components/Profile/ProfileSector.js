@@ -1,19 +1,20 @@
 import styled from "styled-components";
-import HorizontalScroll from "react-scroll-horizontal";
+import { Link } from "react-router-dom";
 
 import MinimalProfile from "./MinimalProfile";
 
-const RoomSector = ({ title, profiles }) => {
+const ProfileSector = ({ title, profiles, path }) => {
   return (
     <StyledProfileSector>
       <h2>{title}</h2>
       <StyledProfiles>
-        <HorizontalScroll>
-          {profiles.map((profile, idx) => (
-            <MinimalProfile key={idx} room={profile} />
-          ))}
-        </HorizontalScroll>
+        {profiles.map((profile, idx) => (
+          <MinimalProfile key={idx} room={profile} />
+        ))}
       </StyledProfiles>
+      <StyledViewAll>
+        <Link to={path}>View all {">>>"}</Link>
+      </StyledViewAll>
     </StyledProfileSector>
   );
 };
@@ -21,13 +22,28 @@ const RoomSector = ({ title, profiles }) => {
 const StyledProfileSector = styled.div`
   & > h2 {
     color: white;
-    margin-bottom: 0.5em;
+    margin-bottom: 0.35em;
   }
 `;
 
 const StyledProfiles = styled.div`
   width: 100%;
-  height: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  & > div {
+    margin: 0em 0.75em 1.25em 0em;
+  }
 `;
 
-export default RoomSector;
+const StyledViewAll = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  margin: 0.25em 0em;
+
+  & > a {
+    color: white;
+    text-decoration: none;
+  }
+`;
+
+export default ProfileSector;

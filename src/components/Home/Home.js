@@ -1,26 +1,44 @@
 import styled from "styled-components";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { getPopularRooms } from "../../redux/actions/dataActions";
 
 import RoomSector from "../Room/RoomSector";
 import ProfileSector from "../Profile/ProfileSector";
 
 const Home = () => {
-  let list = [];
-  for (let i = 0; i < 10; i++) {
-    list.push(i);
-  }
+  const dispatch = useDispatch();
+  const popularRooms = useSelector((state) => state.data.popularRooms);
+
+  useEffect(() => {
+    dispatch(getPopularRooms());
+  }, [dispatch]);
 
   let listPeople = [];
-  for (let j = 0; j < 50; j++) {
+  for (let j = 0; j < 8; j++) {
     listPeople.push(j);
   }
 
   return (
     <StyledHome>
-      <RoomSector title="Popular" rooms={list} />
+      <RoomSector
+        title="Popular"
+        rooms={popularRooms}
+        path={"/rooms/popular"}
+      />
 
-      <ProfileSector title="Active gossiper" profiles={listPeople} />
+      <ProfileSector
+        title="Active gossiper"
+        profiles={listPeople}
+        path={"/users/active"}
+      />
 
-      <RoomSector title="Rooms you created" rooms={list} />
+      <RoomSector
+        title="Rooms you created"
+        rooms={popularRooms}
+        path={"/rooms/yours"}
+      />
     </StyledHome>
   );
 };
@@ -30,7 +48,7 @@ const StyledHome = styled.div`
   height: 100%;
 
   & > div {
-    margin: 1em 0em 3em 0em;
+    margin: 0.85em 0em 0.85em 0em;
   }
 `;
 

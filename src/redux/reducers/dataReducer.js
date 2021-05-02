@@ -1,4 +1,9 @@
-import { CREATE_ROOM, LOADING_DATA } from "../types";
+import {
+  CREATE_ROOM,
+  LOADING_DATA,
+  GET_POPULAR_ROOMS,
+  GET_YOUR_ROOMS,
+} from "../types";
 
 const initialState = {
   loading: false,
@@ -20,7 +25,16 @@ const dataReducer = (state = initialState, action) => {
         ...state,
         yourRooms: [action.payload, ...state.yourRooms],
       };
-
+    case GET_POPULAR_ROOMS:
+      return {
+        ...state,
+        popularRooms: [...action.payload],
+      };
+    case GET_YOUR_ROOMS:
+      return {
+        ...state,
+        yourRooms: [...action.payload],
+      };
     default:
       return state;
   }
