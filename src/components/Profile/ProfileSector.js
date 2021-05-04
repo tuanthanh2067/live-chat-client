@@ -23,6 +23,10 @@ const StyledProfileSector = styled.div`
   & > h2 {
     color: white;
     margin-bottom: 0.35em;
+
+    @media (max-width: 600px) {
+      text-align: center;
+    }
   }
 `;
 

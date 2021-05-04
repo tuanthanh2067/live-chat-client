@@ -117,7 +117,7 @@ const StyledApp = styled.div`
 
 const StyledContainer = styled.div`
   width: 100%;
-  height: 100%;
+  min-height: 100%;
 
   background: #171726;
   display: flex;
@@ -128,7 +128,7 @@ const StyledContainer = styled.div`
 const StyledMain = styled.div`
   max-width: 1300px;
   width: 100%;
-  height: 96%;
+  min-height: 96%;
   margin: auto;
   background: #202136;
   display: flex;
@@ -136,6 +136,12 @@ const StyledMain = styled.div`
 
   border: 1px solid #373759;
   border-radius: 24px;
+
+  position: relative;
+
+  @media (max-width: 1000px) {
+    flex-direction: column;
+  }
 `;
 
 const StyledWindow = styled.div`
@@ -144,6 +150,12 @@ const StyledWindow = styled.div`
 
   height: 96%;
   width: 100%;
+  margin-left: 90px;
+
+  @media (max-width: 1000px) {
+    margin-left: 0px;
+  }
+
   padding: 0em 1.5em;
 `;
 

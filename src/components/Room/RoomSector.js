@@ -25,14 +25,19 @@ const StyledRoomSector = styled.div`
   & > h2 {
     color: white;
     margin-bottom: 0.35em;
+
+    @media (max-width: 600px) {
+      text-align: center;
+      font-size: 1.5em;
+    }
   }
 `;
 
 const StyledRooms = styled.div`
   width: 100%;
-  height: 200px;
-  display: flex;
-
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  grid-gap: 1.5em;
   & > div {
     margin-right: 1.75em;
   }
@@ -40,6 +45,7 @@ const StyledRooms = styled.div`
   ${(props) =>
     !props.isAvailable &&
     `
+      display: flex;
       justify-content: center;
       align-items: center;
       text-align: center;

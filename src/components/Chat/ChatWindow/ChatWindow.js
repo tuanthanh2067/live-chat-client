@@ -46,13 +46,13 @@ const ChatWindow = () => {
 
   useEffect(() => {
     if (userName && userId) {
-      socket.emit("switchRoom", {
+      socket.emit("joinRoom", {
         id: userId,
         name: userName,
         newRoom: id,
       });
 
-      socket.emit("init", { roomId: id, userId: userId });
+      // socket.emit("init", { roomId: id, userId: userId });
 
       // socket.on("init", ({ messages }) => {
       //   const AuthMessages = messages.map((message) => ({
@@ -62,8 +62,6 @@ const ChatWindow = () => {
       //   }));
       //   setMessages(AuthMessages.reverse());
       // });
-
-      socket.emit("count", { roomId: id });
 
       socket.on("count", ({ clients }) => {
         setClients(clients);
@@ -82,7 +80,7 @@ const ChatWindow = () => {
 
       return () => {
         socket.emit("count", { roomId: id });
-        socket.disconnect();
+        socket.emit("leaveRoom");
       };
     }
   }, [userName, userId, id, socket]);

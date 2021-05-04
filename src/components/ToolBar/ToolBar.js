@@ -9,10 +9,10 @@ const ToolBar = () => {
       <Link
         to="/"
         style={{
-          margin: "1.5em 0em",
+          margin: "1.5em",
           display: "flex",
           justifyContent: "center",
-          alignContent: "center",
+          alignItems: "center",
         }}
       >
         <img
@@ -94,14 +94,26 @@ const ToolBar = () => {
 
 const StyledToolBar = styled.div`
   display: flex;
+  position: fixed;
+  top: 0;
+  margin-top: 2.5em;
+  height: 91%;
   flex-direction: column;
   min-width: 90px;
   margin-left: 0.5em;
-  height: 96%;
   border-radius: 40px;
   border: 1px solid #373759;
   background: #27273f;
   color: white;
+
+  @media (max-width: 1000px) {
+    width: 98%;
+    min-height: 90px;
+    flex-direction: row;
+    margin-top: 0.35em;
+    position: static;
+    margin-left: 0;
+  }
 `;
 
 const StyledTools = styled.div`
@@ -109,6 +121,15 @@ const StyledTools = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 1000px) {
+    flex-direction: row;
+    justify-content: space-evenly;
+  }
+
+  @media (max-width: 675px) {
+    flex-wrap: wrap;
+  }
 
   .selected {
     svg {
@@ -118,7 +139,8 @@ const StyledTools = styled.div`
 
   a {
     margin: 2em 0em;
-
+    width: 90px;
+    text-align: center;
     svg {
       fill: #546896;
       width: 32px;

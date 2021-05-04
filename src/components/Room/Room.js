@@ -48,7 +48,7 @@ const Room = ({
 };
 
 const StyledRoom = styled.div`
-  width: 260px;
+  width: 100%;
   height: 200px;
   background: #27273f;
   color: white;
