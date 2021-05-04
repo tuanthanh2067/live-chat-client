@@ -72,3 +72,18 @@ export const getYourRooms = () => (dispatch) => {
       });
     });
 };
+
+export const updateRoomInfo = (roomId, userId) => (dispatch) => {
+  axios
+    .put(`${API_URL}/rooms/update/${roomId}`, { userId: userId })
+    .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
+    })
+    .catch((err) => {
+      console.log("Can not update the room");
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data.errors,
+      });
+    });
+};

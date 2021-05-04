@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import ChatWindowHeader from "./ChatWindowHeader";
 import ChatWindowFooter from "./ChatWindowFooter";
@@ -10,7 +11,12 @@ import ChatWindowBody from "./ChatWindowBody";
 // context
 import { SocketContext } from "../../../context/socketContext";
 
+// redux
+import { updateRoomInfo } from "../../../redux/actions/dataActions";
+
 const ChatWindow = () => {
+  const dispatch = useDispatch();
+
   const [clients, setClients] = useState(0);
   const [chat, setChat] = useState("");
   const [messages, setMessages] = useState([]);
@@ -32,6 +38,13 @@ const ChatWindow = () => {
   };
 
   useEffect(() => {
+    // only want to run this one first time after user, id are available
+    if (userId && id) {
+      dispatch(updateRoomInfo(id, userId));
+    }
+  }, [userId, id, dispatch]);
+
+  useEffect(() => {
     if (userName && userId) {
       socket.emit("switchRoom", {
         id: userId,
@@ -39,16 +52,16 @@ const ChatWindow = () => {
         newRoom: id,
       });
 
-      socket.emit("init", { roomId: id });
+      socket.emit("init", { roomId: id, userId: userId });
 
-      socket.on("init", ({ messages }) => {
-        const AuthMessages = messages.map((message) => ({
-          name: message.name,
-          text: message.text,
-          me: message.name === userName,
-        }));
-        setMessages(AuthMessages.reverse());
-      });
+      // socket.on("init", ({ messages }) => {
+      //   const AuthMessages = messages.map((message) => ({
+      //     name: message.name,
+      //     text: message.text,
+      //     me: message.name === userName,
+      //   }));
+      //   setMessages(AuthMessages.reverse());
+      // });
 
       socket.emit("count", { roomId: id });
 
