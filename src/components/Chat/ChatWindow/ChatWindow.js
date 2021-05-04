@@ -67,7 +67,10 @@ const ChatWindow = () => {
         setMessages((messages) => [...messages, { name: "BOT", text: title }]);
       });
 
-      return () => socket.disconnect();
+      return () => {
+        socket.emit("count", { roomId: id });
+        socket.disconnect();
+      };
     }
   }, [userName, userId, id, socket]);
 
