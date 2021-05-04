@@ -1,14 +1,26 @@
 import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 import Gossip from "../../assets/png/gossip.png";
 
 const ToolBar = () => {
   return (
     <StyledToolBar>
-      <StyledLogo>
-        <img src={Gossip} alt="gossip-img" />
-      </StyledLogo>
+      <Link
+        to="/"
+        style={{
+          margin: "1.5em 0em",
+          display: "flex",
+          justifyContent: "center",
+          alignContent: "center",
+        }}
+      >
+        <img
+          src={Gossip}
+          alt="gossip-img"
+          style={{ width: "48px", height: "48px" }}
+        />
+      </Link>
       <StyledTools>
         <NavLink to="/home" activeClassName="selected">
           <svg
@@ -90,17 +102,6 @@ const StyledToolBar = styled.div`
   border: 1px solid #373759;
   background: #27273f;
   color: white;
-`;
-
-const StyledLogo = styled.div`
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  img {
-    width: 48px;
-    height: 48px;
-  }
 `;
 
 const StyledTools = styled.div`

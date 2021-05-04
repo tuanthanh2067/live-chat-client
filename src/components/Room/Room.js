@@ -1,8 +1,10 @@
 import styled from "styled-components";
+import { getThumbNail } from "../../helper/imageConfig";
+import { Link } from "react-router-dom";
 
 const Room = ({
   room: {
-    imagePath,
+    image,
     dateCreated,
     description,
     likeAmount,
@@ -13,38 +15,40 @@ const Room = ({
   expandable = true,
 }) => {
   return (
-    <StyledRoom expandable={expandable}>
-      <img src={imagePath} alt="room-img"></img>
-      <StyledInfo>
-        <h4>{roomName}</h4>
-        <StyledDescription>{description}</StyledDescription>
-        <StyledRoomAccess>
-          <StyledRoomInfo>
-            <StyledRoomNumber>
-              <StyledGreenDot></StyledGreenDot>
-              <p>{members.length}</p>
-            </StyledRoomNumber>
-            <StyledRoomNumber>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-              >
-                <path d="M12 4.248c-3.148-5.402-12-3.825-12 2.944 0 4.661 5.571 9.427 12 15.808 6.43-6.381 12-11.147 12-15.808 0-6.792-8.875-8.306-12-2.944z" />
-              </svg>
-              <p>{likeAmount}</p>
-            </StyledRoomNumber>
-          </StyledRoomInfo>
-          <StyledRoomId>#{roomId}</StyledRoomId>
-        </StyledRoomAccess>
-      </StyledInfo>
-    </StyledRoom>
+    <Link to={`/room/${roomId}`} style={{ textDecoration: "none" }}>
+      <StyledRoom expandable={expandable}>
+        <img src={getThumbNail(image)} alt="room-img"></img>
+        <StyledInfo>
+          <h4>{roomName}</h4>
+          <StyledDescription>{description}</StyledDescription>
+          <StyledRoomAccess>
+            <StyledRoomInfo>
+              <StyledRoomNumber>
+                <StyledGreenDot></StyledGreenDot>
+                <p>{members.length}</p>
+              </StyledRoomNumber>
+              <StyledRoomNumber>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M12 4.248c-3.148-5.402-12-3.825-12 2.944 0 4.661 5.571 9.427 12 15.808 6.43-6.381 12-11.147 12-15.808 0-6.792-8.875-8.306-12-2.944z" />
+                </svg>
+                <p>{likeAmount}</p>
+              </StyledRoomNumber>
+            </StyledRoomInfo>
+            <StyledRoomId>#{roomId}</StyledRoomId>
+          </StyledRoomAccess>
+        </StyledInfo>
+      </StyledRoom>
+    </Link>
   );
 };
 
 const StyledRoom = styled.div`
-  min-width: 260px;
+  width: 260px;
   height: 200px;
   background: #27273f;
   color: white;
