@@ -14,7 +14,6 @@ import Favorites from "./components/Favorites/Favorites";
 import Profile from "./components/Profile/Profile";
 import Notifications from "./components/Notifications/Notifications";
 import About from "./components/About/About";
-import Settings from "./components/Settings/Settings";
 import CreateRoom from "./components/Room/CreateRoom";
 import ChatWindow from "./components/Chat/ChatWindow/ChatWindow";
 import RoomShowcase from "./components/Room/RoomShowcase";
@@ -115,12 +114,6 @@ function App() {
                     authenticated={authenticated}
                     exact
                     component={Home}
-                  />
-                  <GuardedRoute
-                    path="/settings"
-                    authenticated={authenticated}
-                    exact
-                    component={Settings}
                   />
                   <GuardedRoute
                     path="/about"

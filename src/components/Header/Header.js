@@ -1,11 +1,6 @@
 import styled from "styled-components";
-import { useHistory } from "react-router-dom";
-
-import person from "../../assets/jpg/person.jpg";
 
 const Header = () => {
-  const history = useHistory();
-
   return (
     <StyledHeader>
       <StyledInfo>
@@ -28,25 +23,6 @@ const Header = () => {
             </svg>
           </button>
         </form>
-
-        <StyledIcons>
-          <button
-            onClick={() => {
-              history.push("/create-room");
-            }}
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-            >
-              <path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z" />
-            </svg>
-          </button>
-
-          <img src={person} alt="usr-img"></img>
-        </StyledIcons>
       </StyledTool>
     </StyledHeader>
   );
@@ -59,6 +35,7 @@ const StyledHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 1em 0em;
 
   @media (max-width: 700px) {
     flex-direction: column;
@@ -144,16 +121,6 @@ const StyledTool = styled.div`
 
     form {
       margin: 1em 0em;
-    }
-  }
-`;
-
-const StyledIcons = styled.div`
-  @media (max-width: 700px) {
-    margin: 1em 0em;
-
-    & > * {
-      margin: 0em 1.5em;
     }
   }
 `;

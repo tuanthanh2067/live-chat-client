@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { NavLink, Link } from "react-router-dom";
 
-import Gossip from "../../assets/png/gossip.png";
+import Person from "../../assets/jpg/person.jpg";
 
 const ToolBar = () => {
   return (
     <StyledToolBar>
       <Link
-        to="/"
+        to="/profile"
         style={{
           margin: "1.5em",
           display: "flex",
@@ -15,11 +15,7 @@ const ToolBar = () => {
           alignItems: "center",
         }}
       >
-        <img
-          src={Gossip}
-          alt="gossip-img"
-          style={{ width: "48px", height: "48px" }}
-        />
+        <StyledUserImage src={Person} alt="usr-img"></StyledUserImage>
       </Link>
       <StyledTools>
         <NavLink to="/home" activeClassName="selected">
@@ -55,14 +51,14 @@ const ToolBar = () => {
           </svg>
         </NavLink>
 
-        <NavLink to="/notifications" activeClassName="selected">
+        <NavLink to="/create-room" activeClassName="selected">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="24"
             height="24"
             viewBox="0 0 24 24"
           >
-            <path d="M15.137 3.945c-.644-.374-1.042-1.07-1.041-1.82v-.003c.001-1.172-.938-2.122-2.096-2.122s-2.097.95-2.097 2.122v.003c.001.751-.396 1.446-1.041 1.82-4.667 2.712-1.985 11.715-6.862 13.306v1.749h20v-1.749c-4.877-1.591-2.195-10.594-6.863-13.306zm-3.137-2.945c.552 0 1 .449 1 1 0 .552-.448 1-1 1s-1-.448-1-1c0-.551.448-1 1-1zm3 20c0 1.598-1.392 3-2.971 3s-3.029-1.402-3.029-3h6z" />
+            <path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z" />
           </svg>
         </NavLink>
 
@@ -74,17 +70,6 @@ const ToolBar = () => {
             viewBox="0 0 24 24"
           >
             <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm-.001 5.75c.69 0 1.251.56 1.251 1.25s-.561 1.25-1.251 1.25-1.249-.56-1.249-1.25.559-1.25 1.249-1.25zm2.001 12.25h-4v-1c.484-.179 1-.201 1-.735v-4.467c0-.534-.516-.618-1-.797v-1h3v6.265c0 .535.517.558 1 .735v.999z" />
-          </svg>
-        </NavLink>
-
-        <NavLink to="/settings" activeClassName="selected">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path d="M24 13.616v-3.232c-1.651-.587-2.694-.752-3.219-2.019v-.001c-.527-1.271.1-2.134.847-3.707l-2.285-2.285c-1.561.742-2.433 1.375-3.707.847h-.001c-1.269-.526-1.435-1.576-2.019-3.219h-3.232c-.582 1.635-.749 2.692-2.019 3.219h-.001c-1.271.528-2.132-.098-3.707-.847l-2.285 2.285c.745 1.568 1.375 2.434.847 3.707-.527 1.271-1.584 1.438-3.219 2.02v3.232c1.632.58 2.692.749 3.219 2.019.53 1.282-.114 2.166-.847 3.707l2.285 2.286c1.562-.743 2.434-1.375 3.707-.847h.001c1.27.526 1.436 1.579 2.019 3.219h3.232c.582-1.636.75-2.69 2.027-3.222h.001c1.262-.524 2.12.101 3.698.851l2.285-2.286c-.744-1.563-1.375-2.433-.848-3.706.527-1.271 1.588-1.44 3.221-2.021zm-12 2.384c-2.209 0-4-1.791-4-4s1.791-4 4-4 4 1.791 4 4-1.791 4-4 4z" />
           </svg>
         </NavLink>
       </StyledTools>
@@ -121,7 +106,7 @@ const StyledToolBar = styled.div`
 `;
 
 const StyledTools = styled.div`
-  flex: 6;
+  flex: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -158,6 +143,13 @@ const StyledTools = styled.div`
       }
     }
   }
+`;
+
+const StyledUserImage = styled.img`
+  height: 44px;
+  width: 44px;
+  object-fit: cover;
+  border-radius: 50%;
 `;
 
 export default ToolBar;
