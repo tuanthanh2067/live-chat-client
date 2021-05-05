@@ -24,7 +24,6 @@ const StyledChatWindowBody = styled.div`
   flex-direction: column;
   overflow: auto;
   flex: 15;
-  max-height: 700px;
 `;
 
 export default ChatWindowBody;

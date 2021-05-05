@@ -96,7 +96,7 @@ const ChatWindow = () => {
 
 const StyledChatWindow = styled.div`
   width: 100%;
-  height: 100%;
+  height: 87vh;
   background: #27273f;
   border: 1px solid #373759;
   border-radius: 32px;

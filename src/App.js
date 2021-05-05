@@ -117,7 +117,7 @@ const StyledApp = styled.div`
 
 const StyledContainer = styled.div`
   width: 100%;
-  min-height: 100%;
+  height: 100%;
 
   background: #171726;
   display: flex;
@@ -128,13 +128,11 @@ const StyledContainer = styled.div`
 const StyledMain = styled.div`
   max-width: 1300px;
   width: 100%;
-  min-height: 96%;
-  margin: auto;
+  height: 100%;
   background: #202136;
   display: flex;
   align-items: center;
 
-  border: 1px solid #373759;
   border-radius: 24px;
 
   position: relative;
@@ -147,11 +145,9 @@ const StyledMain = styled.div`
 const StyledWindow = styled.div`
   display: flex;
   flex-direction: column;
-
-  height: 96%;
   width: 100%;
+  min-height: 100vh;
   margin-left: 90px;
-
   @media (max-width: 1000px) {
     margin-left: 0px;
   }

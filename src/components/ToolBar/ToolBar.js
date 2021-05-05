@@ -99,7 +99,7 @@ const StyledToolBar = styled.div`
   margin-top: 2.5em;
   height: 91%;
   flex-direction: column;
-  min-width: 90px;
+  width: 80px;
   margin-left: 0.5em;
   border-radius: 40px;
   border: 1px solid #373759;
@@ -108,11 +108,15 @@ const StyledToolBar = styled.div`
 
   @media (max-width: 1000px) {
     width: 98%;
-    min-height: 90px;
+    height: 80px;
     flex-direction: row;
     margin-top: 0.35em;
     position: static;
     margin-left: 0;
+  }
+
+  @media (max-width: 700px) {
+    height: 130px;
   }
 `;
 
@@ -121,14 +125,16 @@ const StyledTools = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: space-evenly;
 
   @media (max-width: 1000px) {
     flex-direction: row;
-    justify-content: space-evenly;
+    flex-wrap: wrap;
   }
 
   @media (max-width: 675px) {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .selected {
@@ -138,8 +144,8 @@ const StyledTools = styled.div`
   }
 
   a {
-    margin: 2em 0em;
-    width: 90px;
+    /* margin: 2em 0em; */
+    width: 80px;
     text-align: center;
     svg {
       fill: #546896;

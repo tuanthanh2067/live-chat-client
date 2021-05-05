@@ -29,22 +29,24 @@ const Header = () => {
           </button>
         </form>
 
-        <button
-          onClick={() => {
-            history.push("/create-room");
-          }}
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
+        <StyledIcons>
+          <button
+            onClick={() => {
+              history.push("/create-room");
+            }}
           >
-            <path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z" />
-          </svg>
-        </button>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z" />
+            </svg>
+          </button>
 
-        <img src={person} alt="usr-img"></img>
+          <img src={person} alt="usr-img"></img>
+        </StyledIcons>
       </StyledTool>
     </StyledHeader>
   );
@@ -63,7 +65,7 @@ const StyledHeader = styled.div`
     text-align: center;
     margin: 2em 0em;
 
-    padding: 1.5em 0.5em;
+    padding: 0.5em;
     height: auto;
 
     border: 1px solid #373759;
@@ -92,7 +94,7 @@ const StyledInfo = styled.div`
 
   @media (max-width: 700px) {
     width: 100%;
-    margin-bottom: 0.75em;
+    margin: 1em 0em;
   }
 `;
 const StyledTool = styled.div`
@@ -132,17 +134,27 @@ const StyledTool = styled.div`
       width: 18px;
       height: 18px;
     }
-
-    img {
-      width: 32px;
-      height: 32px;
-    }
   }
 
   @media (max-width: 700px) {
     width: 100%;
     display: flex;
     justify-content: space-evenly;
+    flex-direction: column;
+
+    form {
+      margin: 1em 0em;
+    }
+  }
+`;
+
+const StyledIcons = styled.div`
+  @media (max-width: 700px) {
+    margin: 1em 0em;
+
+    & > * {
+      margin: 0em 1.5em;
+    }
   }
 `;
 
