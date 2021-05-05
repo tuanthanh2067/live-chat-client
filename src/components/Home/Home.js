@@ -20,8 +20,6 @@ const Home = () => {
     listPeople.push(j);
   }
 
-  // todo: only get 4 rooms ---
-
   return (
     <StyledHome>
       <RoomSector

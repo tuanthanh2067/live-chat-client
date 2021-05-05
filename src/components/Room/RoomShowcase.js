@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 
 import Room from "./Room";
+import Loading from "../Loading/Loading";
 
 import { getPopularRooms } from "../../redux/actions/dataActions";
 
@@ -10,6 +11,7 @@ const RoomShowcase = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(1);
   const popularRooms = useSelector((state) => state.data.popularRooms);
+  const loading = useSelector((state) => state.UI.loading);
 
   useEffect(() => {
     dispatch(getPopularRooms(12, page - 1));
@@ -24,53 +26,61 @@ const RoomShowcase = () => {
     setPage(page + 1);
   };
 
-  return (
-    <StyledShowcase>
-      <StyledRooms>
-        {popularRooms.length !== 0 ? (
-          popularRooms.map((room, idx) => <Room key={idx} room={room} />)
-        ) : (
-          <div
-            style={{
-              textAlign: "center",
-              color: "grey",
-              marginTop: "2em",
-              fontSize: "2em",
-              fontWeight: "bold",
-            }}
-          >
-            No more rooms to show
-          </div>
-        )}
-      </StyledRooms>
+  let content;
 
-      <StyledPagination>
-        <StyledLeftArrow onClick={previousHandler}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
-          </svg>
-        </StyledLeftArrow>
+  if (loading === true) {
+    content = <Loading />;
+  } else {
+    content = (
+      <>
+        <StyledRooms>
+          {popularRooms.length !== 0 ? (
+            popularRooms.map((room, idx) => <Room key={idx} room={room} />)
+          ) : (
+            <div
+              style={{
+                textAlign: "center",
+                color: "grey",
+                marginTop: "2em",
+                fontSize: "2em",
+                fontWeight: "bold",
+              }}
+            >
+              No more rooms to show
+            </div>
+          )}
+        </StyledRooms>
 
-        <span>{page}</span>
+        <StyledPagination>
+          <StyledLeftArrow onClick={previousHandler}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
+            </svg>
+          </StyledLeftArrow>
 
-        <StyledRightArrow onClick={nextHandler}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-          >
-            <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
-          </svg>
-        </StyledRightArrow>
-      </StyledPagination>
-    </StyledShowcase>
-  );
+          <span>{page}</span>
+
+          <StyledRightArrow onClick={nextHandler}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+            >
+              <path d="M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z" />
+            </svg>
+          </StyledRightArrow>
+        </StyledPagination>
+      </>
+    );
+  }
+
+  return <StyledShowcase>{content}</StyledShowcase>;
 };
 
 const StyledShowcase = styled.div`

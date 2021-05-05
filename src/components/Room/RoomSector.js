@@ -1,17 +1,29 @@
 import styled from "styled-components";
 import Room from "./Room";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+
+import Loading from "../Loading/Loading";
 
 const RoomSector = ({ title, rooms, path }) => {
+  const loading = useSelector((state) => state.UI.loading);
+
+  let content;
+  if (loading === true) {
+    content = <Loading />;
+  } else if (rooms.length !== 0 && loading === false) {
+    content = rooms.map((room, idx) => <Room key={idx} room={room} />);
+  } else {
+    content = <h3>No rooms are available to show</h3>;
+  }
+
   return (
     <StyledRoomSector>
       <h2>{title}</h2>
-      <StyledRooms isAvailable={rooms.length !== 0 ? true : false}>
-        {rooms.length !== 0 ? (
-          rooms.map((room, idx) => <Room key={idx} room={room} />)
-        ) : (
-          <h3>No rooms are available to show</h3>
-        )}
+      <StyledRooms
+        isAvailable={rooms.length !== 0 && loading === false ? true : false}
+      >
+        {content}
       </StyledRooms>
 
       <StyledViewAll>
