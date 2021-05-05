@@ -15,8 +15,6 @@ import Profile from "./components/Profile/Profile";
 import Notifications from "./components/Notifications/Notifications";
 import About from "./components/About/About";
 import Settings from "./components/Settings/Settings";
-import ToolBar from "./components/ToolBar/ToolBar";
-import Header from "./components/Header/Header";
 import CreateRoom from "./components/Room/CreateRoom";
 import ChatWindow from "./components/Chat/ChatWindow/ChatWindow";
 
@@ -29,6 +27,11 @@ import { getUserData, logoutUser } from "./redux/actions/userActions";
 import { SET_AUTHENTICATED } from "./redux/types";
 
 import GuardedRoute from "./helper/GuardedRoute";
+
+// hoc
+import AppContainer from "./components/hoc/AppContainer";
+import AppMain from "./components/hoc/AppMain";
+import AppWindow from "./components/hoc/AppWindow";
 
 function App() {
   const [theme, themeToggler] = useModes();
@@ -73,31 +76,59 @@ function App() {
               {authenticated ? <Redirect to="/home" /> : <Signup />}
             </Route>
 
-            <StyledContainer>
-              <StyledMain>
-                <ToolBar />
-
-                <StyledWindow>
-                  <Header />
+            <AppContainer>
+              <AppMain>
+                <AppWindow>
                   <GuardedRoute
                     path="/create-room"
                     exact
                     component={CreateRoom}
                   />
-                  <GuardedRoute path="/room/:id" exact component={ChatWindow} />
-                  <GuardedRoute path="/profile" exact component={Profile} />
-                  <GuardedRoute path="/favorites" exact component={Favorites} />
-                  <GuardedRoute path="/home" exact component={Home} />
-                  <GuardedRoute path="/settings" exact component={Settings} />
-                  <GuardedRoute path="/about" exact component={About} />
+                  <GuardedRoute
+                    path="/room/:id"
+                    authenticated={authenticated}
+                    exact
+                    component={ChatWindow}
+                  />
+                  <GuardedRoute
+                    path="/profile"
+                    authenticated={authenticated}
+                    exact
+                    component={Profile}
+                  />
+                  <GuardedRoute
+                    path="/favorites"
+                    authenticated={authenticated}
+                    exact
+                    component={Favorites}
+                  />
+                  <GuardedRoute
+                    path="/home"
+                    authenticated={authenticated}
+                    exact
+                    component={Home}
+                  />
+                  <GuardedRoute
+                    path="/settings"
+                    authenticated={authenticated}
+                    exact
+                    component={Settings}
+                  />
+                  <GuardedRoute
+                    path="/about"
+                    authenticated={authenticated}
+                    exact
+                    component={About}
+                  />
                   <GuardedRoute
                     path="/notifications"
+                    authenticated={authenticated}
                     exact
                     component={Notifications}
                   />
-                </StyledWindow>
-              </StyledMain>
-            </StyledContainer>
+                </AppWindow>
+              </AppMain>
+            </AppContainer>
 
             <Route render={() => <h1>404 Not Found</h1>} />
           </Switch>
@@ -113,46 +144,6 @@ const StyledApp = styled.div`
 
   width: 100%;
   height: 100%;
-`;
-
-const StyledContainer = styled.div`
-  width: 100%;
-  height: 100%;
-
-  background: #171726;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const StyledMain = styled.div`
-  max-width: 1300px;
-  width: 100%;
-  height: 100%;
-  background: #202136;
-  display: flex;
-  align-items: center;
-
-  border-radius: 24px;
-
-  position: relative;
-
-  @media (max-width: 1000px) {
-    flex-direction: column;
-  }
-`;
-
-const StyledWindow = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  min-height: 100vh;
-  margin-left: 90px;
-  @media (max-width: 1000px) {
-    margin-left: 0px;
-  }
-
-  padding: 0em 1.5em;
 `;
 
 export default App;
