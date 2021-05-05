@@ -17,6 +17,7 @@ import About from "./components/About/About";
 import Settings from "./components/Settings/Settings";
 import CreateRoom from "./components/Room/CreateRoom";
 import ChatWindow from "./components/Chat/ChatWindow/ChatWindow";
+import RoomShowcase from "./components/Room/RoomShowcase";
 
 // socket context
 import { SocketProvider } from "./context/socketContext";
@@ -81,6 +82,7 @@ function App() {
                 <AppWindow>
                   <GuardedRoute
                     path="/create-room"
+                    authenticated={authenticated}
                     exact
                     component={CreateRoom}
                   />
@@ -89,6 +91,12 @@ function App() {
                     authenticated={authenticated}
                     exact
                     component={ChatWindow}
+                  />
+                  <GuardedRoute
+                    path="/rooms/popular"
+                    authenticated={authenticated}
+                    exact
+                    component={RoomShowcase}
                   />
                   <GuardedRoute
                     path="/profile"

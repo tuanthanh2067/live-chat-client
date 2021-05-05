@@ -12,13 +12,15 @@ const Home = () => {
   const popularRooms = useSelector((state) => state.data.popularRooms);
 
   useEffect(() => {
-    dispatch(getPopularRooms());
+    dispatch(getPopularRooms(4));
   }, [dispatch]);
 
   let listPeople = [];
   for (let j = 0; j < 8; j++) {
     listPeople.push(j);
   }
+
+  // todo: only get 4 rooms ---
 
   return (
     <StyledHome>

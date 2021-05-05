@@ -33,10 +33,10 @@ export const createRoom = (newRoom, history) => (dispatch) => {
     });
 };
 
-export const getPopularRooms = () => (dispatch) => {
+export const getPopularRooms = (amount, page = 0) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
-    .get(`${API_URL}/rooms/get-popular`)
+    .get(`${API_URL}/rooms/get-popular?amount=${amount}&page=${page}`)
     .then((res) => {
       dispatch({
         type: GET_POPULAR_ROOMS,
