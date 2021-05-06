@@ -6,6 +6,7 @@ import {
   SET_ERRORS,
   GET_POPULAR_ROOMS,
   GET_YOUR_ROOMS,
+  SET_CURRENT_ROOM,
 } from "../types";
 import { API_URL } from "../../config/index";
 
@@ -73,11 +74,37 @@ export const getYourRooms = () => (dispatch) => {
     });
 };
 
-export const updateRoomInfo = (roomId, userId) => (dispatch) => {
+export const updateUserInRoom = (roomId, userId) => (dispatch) => {
   axios
-    .put(`${API_URL}/rooms/update/${roomId}`, { userId: userId })
+    .put(`${API_URL}/rooms/update/${roomId}/user`, { userId: userId })
     .then((res) => {
       dispatch({ type: CLEAR_ERRORS });
+      dispatch({
+        type: SET_CURRENT_ROOM,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      console.log("Can not update the room");
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data.errors,
+      });
+    });
+};
+
+export const updateFavoriteInRoom = (roomId, userId, type) => (dispatch) => {
+  axios
+    .put(`${API_URL}/rooms/update/${roomId}/favorite`, {
+      userId: userId,
+      type: type,
+    })
+    .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({
+        type: SET_CURRENT_ROOM,
+        payload: res.data,
+      });
     })
     .catch((err) => {
       console.log("Can not update the room");

@@ -12,7 +12,10 @@ import ChatWindowBody from "./ChatWindowBody";
 import { SocketContext } from "../../../context/socketContext";
 
 // redux
-import { updateRoomInfo } from "../../../redux/actions/dataActions";
+import {
+  updateFavoriteInRoom,
+  updateUserInRoom,
+} from "../../../redux/actions/dataActions";
 
 const ChatWindow = () => {
   const dispatch = useDispatch();
@@ -25,6 +28,7 @@ const ChatWindow = () => {
 
   const userName = useSelector((state) => state.user.userName);
   const userId = useSelector((state) => state.user.userId);
+  const roomInfo = useSelector((state) => state.data.currentRoom);
   const { id } = useParams();
 
   const handleSend = (e) => {
@@ -37,10 +41,14 @@ const ChatWindow = () => {
     setChat("");
   };
 
+  const setFavoriteHandler = () => {
+    dispatch(updateFavoriteInRoom(id, userId));
+  };
+
   useEffect(() => {
     // only want to run this one first time after user, id are available
     if (userId && id) {
-      dispatch(updateRoomInfo(id, userId));
+      dispatch(updateUserInRoom(id, userId));
     }
   }, [userId, id, dispatch]);
 
@@ -87,7 +95,12 @@ const ChatWindow = () => {
 
   return (
     <StyledChatWindow>
-      <ChatWindowHeader clients={clients} />
+      <ChatWindowHeader
+        clients={clients}
+        id={id}
+        setFavorite={setFavoriteHandler}
+        isLiked={roomInfo && roomInfo.isLiked}
+      />
       <ChatWindowBody messages={messages} />
       <ChatWindowFooter chat={chat} setChat={setChat} onSent={handleSend} />
     </StyledChatWindow>
