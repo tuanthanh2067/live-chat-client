@@ -1,12 +1,11 @@
 import styled from "styled-components";
-
-import Person from "../../../assets/jpg/person.jpg";
+import { getSmallCircleImage } from "../../../helper/imageConfig";
 
 const Message = ({ message }) => {
   return (
     <StyledMessage me={message.me}>
       <div>
-        <img src={Person} alt="person-img"></img>
+        <img src={getSmallCircleImage(message.image)} alt="person-img"></img>
       </div>
       <StyledText>
         <p>{message.name}</p>

@@ -1,6 +1,13 @@
 export const getThumbNail = (path) => {
-  // https://res.cloudinary.com/dsqq6qdlf/image/upload/v1619993702/gossip-app/theme-park_dlnk0a.jpg
+  if (!path) return;
   const url = path.split("/upload/");
-  const thumbNail = "/upload/w_260,c_scale/";
-  return url[0] + thumbNail + url[1];
+  const middle = "/upload/w_260,c_scale/";
+  return url[0] + middle + url[1];
+};
+
+export const getSmallCircleImage = (path) => {
+  if (!path) return;
+  const url = path.split("/upload/");
+  const middle = "/upload/w_50,h_50,c_scale/";
+  return url[0] + middle + url[1];
 };

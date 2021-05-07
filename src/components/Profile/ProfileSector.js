@@ -9,7 +9,7 @@ const ProfileSector = ({ title, profiles, path }) => {
       <h2>{title}</h2>
       <StyledProfiles>
         {profiles.map((profile, idx) => (
-          <MinimalProfile key={idx} room={profile} />
+          <MinimalProfile key={idx} profile={profile} />
         ))}
       </StyledProfiles>
       <StyledViewAll>

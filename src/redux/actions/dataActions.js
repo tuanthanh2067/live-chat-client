@@ -7,6 +7,7 @@ import {
   GET_POPULAR_ROOMS,
   GET_YOUR_ROOMS,
   SET_CURRENT_ROOM,
+  SET_ACTIVE_GOSSIPERS,
 } from "../types";
 import { API_URL } from "../../config/index";
 
@@ -16,11 +17,12 @@ export const createRoom = (newRoom, history) => (dispatch) => {
   axios
     .post(`${API_URL}/rooms/create`, newRoom)
     .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
+
       dispatch({
         type: CREATE_ROOM,
         payload: res.data,
       });
-      dispatch({ type: CLEAR_ERRORS });
 
       // redirect to the room when successfully created
       history.push(`/room/${res.data.roomId}`);
@@ -39,11 +41,11 @@ export const getPopularRooms = (amount, page = 0) => (dispatch) => {
   axios
     .get(`${API_URL}/rooms/get-popular?amount=${amount}&page=${page}`)
     .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
       dispatch({
         type: GET_POPULAR_ROOMS,
         payload: res.data,
       });
-      dispatch({ type: CLEAR_ERRORS });
     })
     .catch((err) => {
       console.log("Can not get popular rooms", err);
@@ -59,11 +61,11 @@ export const getYourRooms = () => (dispatch) => {
   axios
     .get(`${API_URL}/rooms/your-room`)
     .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
       dispatch({
         type: GET_YOUR_ROOMS,
         payload: res.data,
       });
-      dispatch({ type: CLEAR_ERRORS });
     })
     .catch((err) => {
       console.log("Can not get your rooms", err);
@@ -108,6 +110,25 @@ export const updateFavoriteInRoom = (roomId, userId, type) => (dispatch) => {
     })
     .catch((err) => {
       console.log("Can not update the room");
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data.errors,
+      });
+    });
+};
+
+export const getActiveGossipers = (amount, page) => (dispatch) => {
+  axios
+    .get(`${API_URL}/users/active?amount=${amount}&page=${page}`)
+    .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({
+        type: SET_ACTIVE_GOSSIPERS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      console.log("Can not get active gossipers");
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data.errors,

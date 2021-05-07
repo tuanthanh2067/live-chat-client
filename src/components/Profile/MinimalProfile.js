@@ -1,15 +1,20 @@
 import styled from "styled-components";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
-import Person from "../../assets/jpg/person.jpg";
+import { getSmallCircleImage } from "../../helper/imageConfig";
 
-const MinimalProfile = () => {
+const MinimalProfile = ({ profile }) => {
+  dayjs.extend(relativeTime);
+  console.log(profile);
+
   return (
     <StyledMinimalProfile>
-      <img src={Person} alt="person-img"></img>
+      <img src={getSmallCircleImage(profile.image)} alt="person-img"></img>
 
       <div>
-        <h5>Small Black Crocodile</h5>
-        <p>Joined 8 months</p>
+        <h5>{profile.userName}</h5>
+        <p>Joined {dayjs(profile.dateCreated).fromNow()}</p>
       </div>
     </StyledMinimalProfile>
   );

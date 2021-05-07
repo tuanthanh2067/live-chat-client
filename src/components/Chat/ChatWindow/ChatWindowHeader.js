@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import ThemePark from "../../../assets/jpg/theme-park.jpg";
 
-const ChatWindowHeader = ({ clients, id, setFavorite, isLiked }) => {
+import { getSmallCircleImage } from "../../../helper/imageConfig";
+
+const ChatWindowHeader = ({ clients, id, setFavorite, isLiked, image }) => {
   return (
     <StyledChatWindowHeader>
       <StyledLeft>
-        <img src={ThemePark} alt="room-img"></img>
+        <img src={getSmallCircleImage(image)} alt="room-img"></img>
         <div>
           <h5>Javascript</h5>
           <p>{clients} active</p>

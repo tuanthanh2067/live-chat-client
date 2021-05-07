@@ -2,7 +2,10 @@ import styled from "styled-components";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getPopularRooms } from "../../redux/actions/dataActions";
+import {
+  getPopularRooms,
+  getActiveGossipers,
+} from "../../redux/actions/dataActions";
 
 import RoomSector from "../Room/RoomSector";
 import ProfileSector from "../Profile/ProfileSector";
@@ -10,15 +13,12 @@ import ProfileSector from "../Profile/ProfileSector";
 const Home = () => {
   const dispatch = useDispatch();
   const popularRooms = useSelector((state) => state.data.popularRooms);
+  const activeGossipers = useSelector((state) => state.data.activeGossipers);
 
   useEffect(() => {
     dispatch(getPopularRooms(4));
+    dispatch(getActiveGossipers(8));
   }, [dispatch]);
-
-  let listPeople = [];
-  for (let j = 0; j < 8; j++) {
-    listPeople.push(j);
-  }
 
   return (
     <StyledHome>
@@ -30,7 +30,7 @@ const Home = () => {
 
       <ProfileSector
         title="Active gossiper"
-        profiles={listPeople}
+        profiles={activeGossipers}
         path={"/users/active"}
       />
 

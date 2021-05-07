@@ -5,11 +5,12 @@ import {
   GET_YOUR_ROOMS,
   SET_CURRENT_ROOM,
   CLEAR_CURRENT_ROOM,
+  SET_ACTIVE_GOSSIPERS,
 } from "../types";
 
 const initialState = {
   loading: false,
-  activeGossiper: [],
+  activeGossipers: [],
   popularRooms: [],
   yourRooms: [],
   currentRoom: null,
@@ -47,6 +48,11 @@ const dataReducer = (state = initialState, action) => {
       return {
         ...state,
         currentRoom: null,
+      };
+    case SET_ACTIVE_GOSSIPERS:
+      return {
+        ...state,
+        activeGossipers: [...action.payload],
       };
     default:
       return state;

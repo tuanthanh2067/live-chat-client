@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import { NavLink, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
-import Person from "../../assets/jpg/person.jpg";
+import { getSmallCircleImage } from "../../helper/imageConfig";
 
 const ToolBar = () => {
+  const image = useSelector((state) => state.user.image);
+
   return (
     <StyledToolBar>
       <Link
@@ -15,7 +18,10 @@ const ToolBar = () => {
           alignItems: "center",
         }}
       >
-        <StyledUserImage src={Person} alt="usr-img"></StyledUserImage>
+        <StyledUserImage
+          src={getSmallCircleImage(image)}
+          alt="usr-img"
+        ></StyledUserImage>
       </Link>
       <StyledTools>
         <NavLink to="/home" activeClassName="selected">

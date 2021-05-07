@@ -17,8 +17,11 @@ import {
   updateUserInRoom,
 } from "../../../redux/actions/dataActions";
 
+import { CLEAR_CURRENT_ROOM } from "../../../redux/types";
+
 const ChatWindow = () => {
   const dispatch = useDispatch();
+  const { id } = useParams();
 
   const [clients, setClients] = useState(0);
   const [chat, setChat] = useState("");
@@ -29,14 +32,14 @@ const ChatWindow = () => {
   const userName = useSelector((state) => state.user.userName);
   const userId = useSelector((state) => state.user.userId);
   const roomInfo = useSelector((state) => state.data.currentRoom);
-  const { id } = useParams();
+  const image = useSelector((state) => state.user.image);
 
   const handleSend = (e) => {
     e.preventDefault();
 
     socket.emit("sendMessage", { userName, chat });
 
-    setMessages([...messages], { userName, chat, me: true });
+    setMessages([...messages], { userName, chat, me: true, image: image });
 
     setChat("");
   };
@@ -58,6 +61,7 @@ const ChatWindow = () => {
         id: userId,
         name: userName,
         newRoom: id,
+        image: image,
       });
 
       // socket.emit("init", { roomId: id, userId: userId });
@@ -75,10 +79,10 @@ const ChatWindow = () => {
         setClients(clients);
       });
 
-      socket.on("message", ({ name, text }) => {
+      socket.on("message", ({ name, text, image }) => {
         setMessages((messages) => [
           ...messages,
-          { name: name, text: text, me: name === userName },
+          { name: name, text: text, me: name === userName, image: image },
         ]);
       });
 
@@ -89,9 +93,13 @@ const ChatWindow = () => {
       return () => {
         socket.emit("count", { roomId: id });
         socket.emit("leaveRoom");
+
+        dispatch({
+          type: CLEAR_CURRENT_ROOM,
+        });
       };
     }
-  }, [userName, userId, id, socket]);
+  }, [userName, userId, id, socket, dispatch, image]);
 
   return (
     <StyledChatWindow>
@@ -100,6 +108,7 @@ const ChatWindow = () => {
         id={id}
         setFavorite={setFavoriteHandler}
         isLiked={roomInfo && roomInfo.isLiked}
+        image={roomInfo && roomInfo.image}
       />
       <ChatWindowBody messages={messages} />
       <ChatWindowFooter chat={chat} setChat={setChat} onSent={handleSend} />
