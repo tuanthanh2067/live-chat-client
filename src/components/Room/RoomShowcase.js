@@ -1,31 +1,14 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { useDispatch, useSelector } from "react-redux";
-
-import Room from "./Room";
 import Loading from "../Loading/Loading";
+import Room from "./Room";
+import styled from "styled-components";
 
-import { getPopularRooms } from "../../redux/actions/dataActions";
-
-const RoomShowcase = () => {
-  const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
-  const popularRooms = useSelector((state) => state.data.popularRooms);
-  const loading = useSelector((state) => state.UI.loading);
-
-  useEffect(() => {
-    dispatch(getPopularRooms(12, page - 1));
-  }, [page, dispatch]);
-
-  const previousHandler = () => {
-    if (page === 1) return;
-    setPage(page - 1);
-  };
-
-  const nextHandler = () => {
-    setPage(page + 1);
-  };
-
+const RoomShowcase = ({
+  loading,
+  rooms,
+  previousHandler,
+  nextHandler,
+  page,
+}) => {
   let content;
 
   if (loading === true) {
@@ -34,8 +17,8 @@ const RoomShowcase = () => {
     content = (
       <>
         <StyledRooms>
-          {popularRooms.length !== 0 ? (
-            popularRooms.map((room, idx) => <Room key={idx} room={room} />)
+          {rooms.length !== 0 ? (
+            rooms.map((room, idx) => <Room key={idx} room={room} />)
           ) : (
             <div
               style={{
@@ -82,6 +65,8 @@ const RoomShowcase = () => {
 
   return <StyledShowcase>{content}</StyledShowcase>;
 };
+
+export default RoomShowcase;
 
 const StyledShowcase = styled.div`
   width: 100%;
@@ -138,5 +123,3 @@ const StyledLeftArrow = styled.button`
 `;
 
 const StyledRightArrow = styled.button``;
-
-export default RoomShowcase;

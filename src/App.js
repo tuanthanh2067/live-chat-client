@@ -16,8 +16,8 @@ import Notifications from "./components/Notifications/Notifications";
 import About from "./components/About/About";
 import CreateRoom from "./components/Room/CreateRoom";
 import ChatWindow from "./components/Chat/ChatWindow/ChatWindow";
-import RoomShowcase from "./components/Room/RoomShowcase";
-import RoomSearch from "./components/Room/RoomSearch";
+import PopularRooms from "./components/Room/PopularRooms";
+import SearchRooms from "./components/Room/SearchRooms";
 
 // socket context
 import { SocketProvider } from "./context/socketContext";
@@ -96,12 +96,13 @@ function App() {
                     path="/rooms/popular"
                     authenticated={authenticated}
                     exact
-                    component={RoomShowcase}
+                    component={PopularRooms}
                   />
                   <GuardedRoute
-                    path="/rooms"
+                    path="/rooms/search"
+                    exact
                     authenticated={authenticated}
-                    component={RoomSearch}
+                    component={SearchRooms}
                   />
                   <GuardedRoute
                     path="/profile"

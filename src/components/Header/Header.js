@@ -10,7 +10,7 @@ const Header = () => {
 
   const searchHandler = (e) => {
     e.preventDefault();
-    history.push(`/rooms?title=${query}`);
+    history.push(`/rooms/search?title=${query}`);
     setQuery("");
   };
 

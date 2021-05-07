@@ -77,9 +77,8 @@ export const getYourRooms = () => (dispatch) => {
     });
 };
 
-export const searchRooms = (amount, page, title) => (dispatch) => {
+export const getSearchRooms = (amount, page, title) => (dispatch) => {
   dispatch({ type: LOADING_UI });
-
   axios
     .get(`${API_URL}/rooms/search?title=${title}&amount=${amount}&page=${page}`)
     .then((res) => {
