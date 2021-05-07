@@ -6,7 +6,6 @@ import { getSmallCircleImage } from "../../helper/imageConfig";
 
 const MinimalProfile = ({ profile }) => {
   dayjs.extend(relativeTime);
-  console.log(profile);
 
   return (
     <StyledMinimalProfile>

@@ -4,10 +4,11 @@ import {
   CREATE_ROOM,
   CLEAR_ERRORS,
   SET_ERRORS,
-  GET_POPULAR_ROOMS,
-  GET_YOUR_ROOMS,
+  SET_POPULAR_ROOMS,
+  SET_YOUR_ROOMS,
   SET_CURRENT_ROOM,
   SET_ACTIVE_GOSSIPERS,
+  SET_SEARCH_ROOMS,
 } from "../types";
 import { API_URL } from "../../config/index";
 
@@ -43,7 +44,7 @@ export const getPopularRooms = (amount, page = 0) => (dispatch) => {
     .then((res) => {
       dispatch({ type: CLEAR_ERRORS });
       dispatch({
-        type: GET_POPULAR_ROOMS,
+        type: SET_POPULAR_ROOMS,
         payload: res.data,
       });
     })
@@ -63,12 +64,33 @@ export const getYourRooms = () => (dispatch) => {
     .then((res) => {
       dispatch({ type: CLEAR_ERRORS });
       dispatch({
-        type: GET_YOUR_ROOMS,
+        type: SET_YOUR_ROOMS,
         payload: res.data,
       });
     })
     .catch((err) => {
       console.log("Can not get your rooms", err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data.errors,
+      });
+    });
+};
+
+export const searchRooms = (amount, page, title) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+
+  axios
+    .get(`${API_URL}/rooms/search?title=${title}&amount=${amount}&page=${page}`)
+    .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({
+        type: SET_SEARCH_ROOMS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      console.log("Can not perform searching", err);
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data.errors,

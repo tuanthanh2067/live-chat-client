@@ -1,8 +1,8 @@
 import {
   CREATE_ROOM,
   LOADING_DATA,
-  GET_POPULAR_ROOMS,
-  GET_YOUR_ROOMS,
+  SET_POPULAR_ROOMS,
+  SET_YOUR_ROOMS,
   SET_CURRENT_ROOM,
   CLEAR_CURRENT_ROOM,
   SET_ACTIVE_GOSSIPERS,
@@ -29,12 +29,12 @@ const dataReducer = (state = initialState, action) => {
         ...state,
         yourRooms: [action.payload, ...state.yourRooms],
       };
-    case GET_POPULAR_ROOMS:
+    case SET_POPULAR_ROOMS:
       return {
         ...state,
         popularRooms: [...action.payload],
       };
-    case GET_YOUR_ROOMS:
+    case SET_YOUR_ROOMS:
       return {
         ...state,
         yourRooms: [...action.payload],

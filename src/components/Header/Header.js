@@ -1,18 +1,38 @@
 import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { useState } from "react";
+import { useHistory } from "react-router-dom";
 
 const Header = () => {
+  const name = useSelector((state) => state.user.userName);
+  const [query, setQuery] = useState("");
+  const history = useHistory();
+
+  const searchHandler = (e) => {
+    e.preventDefault();
+    history.push(`/rooms?title=${query}`);
+    setQuery("");
+  };
+
   return (
     <StyledHeader>
       <StyledInfo>
-        <h2>Hi Tuan Thanh</h2>
+        <h2>Hi {name}</h2>
         <p>Welcome back, I'm so excited you chose us!</p>
       </StyledInfo>
 
       <StyledTool>
-        <form>
-          <input type="text" placeholder="Search..." className="mr-sm-2" />
+        <form onSubmit={searchHandler}>
+          <input
+            type="text"
+            placeholder="Search..."
+            value={query}
+            onChange={(e) => {
+              setQuery(e.target.value);
+            }}
+          />
 
-          <button>
+          <button type="submit">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -82,8 +102,10 @@ const StyledTool = styled.div`
     background: transparent;
     outline: none;
     border: none;
-    border-bottom: 1px solid grey;
+    border: 1px solid grey;
     color: white;
+    padding: 0.5em 1em;
+    border-radius: 24px;
   }
 
   button {
