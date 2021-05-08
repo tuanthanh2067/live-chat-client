@@ -57,10 +57,12 @@ export const getPopularRooms = (amount, page = 0) => (dispatch) => {
     });
 };
 
-export const getYourRooms = () => (dispatch) => {
+export const getYourRooms = (userId, amount, page = 0) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
-    .get(`${API_URL}/rooms/your-room`)
+    .get(
+      `${API_URL}/rooms/your-rooms?userId=${userId}&amount=${amount}&page=${page}`
+    )
     .then((res) => {
       dispatch({ type: CLEAR_ERRORS });
       dispatch({

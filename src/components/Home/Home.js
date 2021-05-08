@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getPopularRooms,
   getActiveGossipers,
+  getYourRooms,
 } from "../../redux/actions/dataActions";
 
 import RoomSector from "../Room/RoomSector";
@@ -14,11 +15,19 @@ const Home = () => {
   const dispatch = useDispatch();
   const popularRooms = useSelector((state) => state.data.popularRooms);
   const activeGossipers = useSelector((state) => state.data.activeGossipers);
+  const yourRooms = useSelector((state) => state.data.yourRooms);
+  const userId = useSelector((state) => state.user.userId);
 
   useEffect(() => {
     dispatch(getPopularRooms(4));
     dispatch(getActiveGossipers(8));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (userId) {
+      dispatch(getYourRooms(userId, 4));
+    }
+  }, [dispatch, userId]);
 
   return (
     <StyledHome>
@@ -34,11 +43,7 @@ const Home = () => {
         path={"/users/active"}
       />
 
-      <RoomSector
-        title="Rooms you created"
-        rooms={popularRooms}
-        path={"/rooms/yours"}
-      />
+      <RoomSector title="Your rooms" rooms={yourRooms} path={"/rooms/yours"} />
     </StyledHome>
   );
 };
