@@ -10,7 +10,6 @@ import { lightTheme, darkTheme } from "./helper/themes";
 import Login from "./components/Login/Login";
 import Signup from "./components/Signup/Signup";
 import Home from "./components/Home/Home";
-import Favorites from "./components/Favorites/Favorites";
 import Profile from "./components/Profile/Profile";
 import Notifications from "./components/Notifications/Notifications";
 import About from "./components/About/About";
@@ -19,6 +18,7 @@ import ChatWindow from "./components/Chat/ChatWindow/ChatWindow";
 import PopularRooms from "./components/Room/PopularRooms";
 import SearchRooms from "./components/Room/SearchRooms";
 import YourRooms from "./components/Room/YourRooms";
+import FavoriteRooms from "./components/Room/FavoriteRooms";
 
 // socket context
 import { SocketProvider } from "./context/socketContext";
@@ -121,7 +121,7 @@ function App() {
                     path="/favorites"
                     authenticated={authenticated}
                     exact
-                    component={Favorites}
+                    component={FavoriteRooms}
                   />
                   <GuardedRoute
                     path="/home"

@@ -9,6 +9,7 @@ import {
   SET_CURRENT_ROOM,
   SET_ACTIVE_GOSSIPERS,
   SET_SEARCH_ROOMS,
+  SET_FAVORITE_ROOMS,
 } from "../types";
 import { API_URL } from "../../config/index";
 
@@ -99,6 +100,25 @@ export const getSearchRooms = (amount, page, title) => (dispatch) => {
     });
 };
 
+export const getFavoriteRooms = (userId, amount, page) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .get(
+      `${API_URL}/rooms/favorite?userId=${userId}&amount=${amount}&page=${page}`
+    )
+    .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({ type: SET_FAVORITE_ROOMS, payload: res.data });
+    })
+    .catch((err) => {
+      console.log("Can not fetching your favorite rooms", err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data.errors,
+      });
+    });
+};
+
 export const updateUserInRoom = (roomId, userId) => (dispatch) => {
   axios
     .put(`${API_URL}/rooms/update/${roomId}/user`, { userId: userId })
@@ -125,7 +145,6 @@ export const updateFavoriteInRoom = (roomId, userId, type) => (dispatch) => {
       type: type,
     })
     .then((res) => {
-      dispatch({ type: CLEAR_ERRORS });
       dispatch({
         type: SET_CURRENT_ROOM,
         payload: res.data,
@@ -144,7 +163,6 @@ export const getActiveGossipers = (amount, page) => (dispatch) => {
   axios
     .get(`${API_URL}/users/active?amount=${amount}&page=${page}`)
     .then((res) => {
-      dispatch({ type: CLEAR_ERRORS });
       dispatch({
         type: SET_ACTIVE_GOSSIPERS,
         payload: res.data,

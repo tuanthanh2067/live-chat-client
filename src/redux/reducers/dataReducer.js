@@ -7,6 +7,7 @@ import {
   CLEAR_CURRENT_ROOM,
   SET_ACTIVE_GOSSIPERS,
   SET_SEARCH_ROOMS,
+  SET_FAVORITE_ROOMS,
 } from "../types";
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   popularRooms: [],
   yourRooms: [],
   searchRooms: [],
+  favoriteRooms: [],
   currentRoom: null,
 };
 
@@ -60,6 +62,11 @@ const dataReducer = (state = initialState, action) => {
       return {
         ...state,
         searchRooms: [...action.payload],
+      };
+    case SET_FAVORITE_ROOMS:
+      return {
+        ...state,
+        favoriteRooms: [...action.payload],
       };
     default:
       return state;
