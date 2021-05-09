@@ -7,8 +7,9 @@ import axios from "axios";
 import { useModes } from "./helper/useModes";
 import { lightTheme, darkTheme } from "./helper/themes";
 
-import Login from "./components/Login/Login";
-import Signup from "./components/Signup/Signup";
+import Login from "./components/Authentication/Login/Login";
+import Signup from "./components/Authentication/Signup/Signup";
+import MainAuth from "./components/Authentication/Main";
 import Home from "./components/Home/Home";
 import Profile from "./components/Profile/Profile";
 import Notifications from "./components/Notifications/Notifications";
@@ -71,11 +72,19 @@ function App() {
             </Route>
 
             <Route path="/login">
-              {authenticated ? <Redirect to="/home" /> : <Login />}
+              {authenticated ? (
+                <Redirect to="/home" />
+              ) : (
+                <MainAuth component={Login} />
+              )}
             </Route>
 
             <Route path="/signup">
-              {authenticated ? <Redirect to="/home" /> : <Signup />}
+              {authenticated ? (
+                <Redirect to="/home" />
+              ) : (
+                <MainAuth component={Signup} />
+              )}
             </Route>
 
             <AppContainer>
