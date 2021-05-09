@@ -1,23 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../../redux/actions/userActions";
+import { CLEAR_ERRORS } from "../../../redux/types";
 
 import Loading from "../../Loading/Loading";
 
 const Login = () => {
   const history = useHistory();
 
-  const [loginTouched, setLoginTouched] = useState(false);
-
   const loading = useSelector((state) => state.UI.loading);
   const errors = useSelector((state) => state.UI.errors);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    toast(errors);
+
+    return () => {
+      dispatch({
+        type: CLEAR_ERRORS,
+      });
+    };
+  }, [errors]);
 
   const formik = useFormik({
     initialValues: {
@@ -31,7 +42,6 @@ const Login = () => {
       password: Yup.string().required("Password is required"),
     }),
     onSubmit: (values) => {
-      setLoginTouched(true);
       dispatch(loginUser(values, history));
     },
   });
@@ -63,8 +73,6 @@ const Login = () => {
           <StyledError>{formik.errors.password}</StyledError>
         </div>
 
-        {loginTouched && <StyledError>{errors}</StyledError>}
-
         <button type="submit" disabled={loading}>
           {loading ? <Loading /> : "LOGIN"}
         </button>
@@ -73,6 +81,8 @@ const Login = () => {
       <div>
         <Link to="/signup">Don't have an account?</Link>
       </div>
+
+      <ToastContainer />
     </StyledBoxRight>
   );
 };

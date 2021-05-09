@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
@@ -9,23 +9,34 @@ import {
   colors,
   animals,
 } from "unique-names-generator";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { signupUser } from "../../../redux/actions/userActions";
-
-import Pen from "../../../assets/png/pen.png";
+import { CLEAR_ERRORS, CLEAR_MESSAGES } from "../../../redux/types";
 
 import Loading from "../../Loading/Loading";
-import LeftBox from "../LeftBox";
 
 const Signup = () => {
-  const [signupTouched, setSignupTouched] = useState(false);
-
   const loading = useSelector((state) => state.UI.loading);
   const errors = useSelector((state) => state.UI.errors);
   const messages = useSelector((state) => state.UI.messages);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    toast(errors || messages);
+
+    return () => {
+      dispatch({
+        type: CLEAR_ERRORS,
+      });
+      dispatch({
+        type: CLEAR_MESSAGES,
+      });
+    };
+  }, [errors, messages, dispatch]);
 
   const formik = useFormik({
     initialValues: {
@@ -52,7 +63,6 @@ const Signup = () => {
         .max(30, "Must be at most 30 characters"),
     }),
     onSubmit: (values) => {
-      setSignupTouched(true);
       dispatch(signupUser(values));
     },
   });
@@ -66,6 +76,7 @@ const Signup = () => {
 
   return (
     <StyledBoxRight>
+      <ToastContainer />
       <form onSubmit={formik.handleSubmit}>
         <h2>Sign up</h2>
         <div>
@@ -77,8 +88,8 @@ const Signup = () => {
             value={formik.values.email}
             required
           ></input>
-          <StyledError>{formik.errors.email}</StyledError>
         </div>
+        <StyledError>{formik.errors.email}</StyledError>
 
         <div>
           <input
@@ -89,8 +100,8 @@ const Signup = () => {
             value={formik.values.password}
             required
           ></input>
-          <StyledError>{formik.errors.password}</StyledError>
         </div>
+        <StyledError>{formik.errors.password}</StyledError>
 
         <div>
           <input
@@ -101,8 +112,8 @@ const Signup = () => {
             value={formik.values.confirmPassword}
             required
           ></input>
-          <StyledError>{formik.errors.confirmPassword}</StyledError>
         </div>
+        <StyledError>{formik.errors.confirmPassword}</StyledError>
 
         <StyledUserName>
           <input
@@ -124,16 +135,8 @@ const Signup = () => {
           >
             <path d="M23.621 9.012c.247.959.379 1.964.379 3 0 6.623-5.377 11.988-12 11.988s-12-5.365-12-11.988c0-6.623 5.377-12 12-12 2.581 0 4.969.822 6.927 2.211l1.718-2.223 1.935 6.012h-6.58l1.703-2.204c-1.62-1.128-3.582-1.796-5.703-1.796-5.52 0-10 4.481-10 10 0 5.52 4.48 10 10 10 5.519 0 10-4.48 10-10 0-1.045-.161-2.053-.458-3h2.079zm-7.621 7.988h-8v-6h1v-2c0-1.656 1.344-3 3-3s3 1.344 3 3v2h1v6zm-5-8v2h2v-2c0-.552-.448-1-1-1s-1 .448-1 1z" />
           </svg>
-
-          <StyledError>{formik.errors.userName}</StyledError>
         </StyledUserName>
-
-        {signupTouched && (
-          <>
-            <StyledError>{errors}</StyledError>
-            <StyledMessage>{messages}</StyledMessage>
-          </>
-        )}
+        <StyledError>{formik.errors.userName}</StyledError>
 
         <button type="submit" disabled={loading}>
           {loading ? <Loading /> : "SIGNUP"}
@@ -168,7 +171,7 @@ const StyledBoxRight = styled.div`
     width: 100%;
 
     div {
-      margin: 1em 0em;
+      margin-top: 1em;
     }
 
     input {
@@ -224,10 +227,4 @@ const StyledError = styled.p`
   font-size: 0.9em;
 `;
 
-const StyledMessage = styled.p`
-  color: green;
-  padding-left: 0.75em;
-
-  font-size: 0.9em;
-`;
 export default Signup;
