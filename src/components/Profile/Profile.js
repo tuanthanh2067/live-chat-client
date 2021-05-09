@@ -1,10 +1,20 @@
 import styled from "styled-components";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory, Link } from "react-router-dom";
+
+import { logoutUser } from "../../redux/actions/userActions";
 
 const Profile = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const user = useSelector((state) => state.user);
   const date = new Date(user.dateCreated).toUTCString();
+
+  const logoutHandler = () => {
+    dispatch(logoutUser());
+    history.push("/");
+  };
+
   return (
     <StyledProfile>
       <StyledDetails>
@@ -31,6 +41,12 @@ const Profile = () => {
             <button>View all</button>
           </Link>
         </StyledGroup>
+
+        <StyledGroup>
+          <Link to="#">
+            <button onClick={logoutHandler}>Log out</button>
+          </Link>
+        </StyledGroup>
       </StyledDetails>
     </StyledProfile>
   );
@@ -50,7 +66,7 @@ const StyledDetails = styled.div`
 
 const StyledGroup = styled.div`
   width: 100%;
-  margin: 2.75em 0em;
+  margin: 2.5em 0em;
   display: flex;
   flex-direction: column;
 
