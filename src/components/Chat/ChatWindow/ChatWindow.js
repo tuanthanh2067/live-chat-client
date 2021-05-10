@@ -3,6 +3,8 @@ import { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import ChatWindowHeader from "./ChatWindowHeader";
 import ChatWindowFooter from "./ChatWindowFooter";
@@ -36,6 +38,11 @@ const ChatWindow = () => {
 
   const handleSend = (e) => {
     e.preventDefault();
+
+    if (chat.trim() === "") {
+      toast("Please type your message");
+      return;
+    }
 
     socket.emit("sendMessage", { userName, chat });
 
@@ -112,6 +119,8 @@ const ChatWindow = () => {
       />
       <ChatWindowBody messages={messages} />
       <ChatWindowFooter chat={chat} setChat={setChat} onSent={handleSend} />
+
+      <ToastContainer />
     </StyledChatWindow>
   );
 };
