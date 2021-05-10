@@ -35,6 +35,7 @@ import GuardedRoute from "./helper/GuardedRoute";
 import AppContainer from "./components/hoc/AppContainer";
 import AppMain from "./components/hoc/AppMain";
 import AppWindow from "./components/hoc/AppWindow";
+import ActiveUsers from "./components/User/ActiveUsers";
 
 function App() {
   const [theme, themeToggler] = useModes();
@@ -125,6 +126,12 @@ function App() {
                     authenticated={authenticated}
                     exact
                     component={Profile}
+                  />
+                  <GuardedRoute
+                    path="/users/active"
+                    authenticated={authenticated}
+                    exact
+                    component={ActiveUsers}
                   />
                   <GuardedRoute
                     path="/favorites"

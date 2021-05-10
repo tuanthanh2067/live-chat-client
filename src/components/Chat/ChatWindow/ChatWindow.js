@@ -98,7 +98,6 @@ const ChatWindow = () => {
       });
 
       return () => {
-        socket.emit("count", { roomId: id });
         socket.emit("leaveRoom");
 
         dispatch({

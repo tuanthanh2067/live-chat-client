@@ -1,16 +1,16 @@
 import Loading from "../Loading/Loading";
-import Room from "./Room";
 import styled from "styled-components";
 
+import MinimalProfile from "../Profile/MinimalProfile";
 import Pagination from "../Pagination/Pagination";
 
-const RoomShowcase = ({
+export default function UserShowcase({
   loading,
-  rooms,
+  users,
   previousHandler,
   nextHandler,
   page,
-}) => {
+}) {
   let content;
 
   if (loading === true) {
@@ -18,9 +18,11 @@ const RoomShowcase = ({
   } else {
     content = (
       <>
-        <StyledRooms>
-          {rooms.length !== 0 ? (
-            rooms.map((room, idx) => <Room key={idx} room={room} />)
+        <StyledUsers>
+          {users.length !== 0 ? (
+            users.map((user, idx) => (
+              <MinimalProfile key={idx} profile={user} />
+            ))
           ) : (
             <div
               style={{
@@ -31,10 +33,10 @@ const RoomShowcase = ({
                 fontWeight: "bold",
               }}
             >
-              No more rooms to show
+              No more users to show
             </div>
           )}
-        </StyledRooms>
+        </StyledUsers>
 
         <Pagination
           previousHandler={previousHandler}
@@ -46,16 +48,14 @@ const RoomShowcase = ({
   }
 
   return <StyledShowcase>{content}</StyledShowcase>;
-};
-
-export default RoomShowcase;
+}
 
 const StyledShowcase = styled.div`
   width: 100%;
   height: 100%;
 `;
 
-const StyledRooms = styled.div`
+const StyledUsers = styled.div`
   width: 100%;
   overflow-y: auto;
   display: grid;
