@@ -86,4 +86,12 @@ const StyledBoxLeft = styled.div`
       color: black;
     }
   }
+
+  @media (max-width: 1000px) {
+    padding: 0em 0.75em;
+  }
+
+  @media (max-width: 700px) {
+    display: none;
+  }
 `;
