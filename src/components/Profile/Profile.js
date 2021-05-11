@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
 
-import { logoutUser } from "../../redux/actions/userActions";
+import { logoutUser, uploadImage } from "../../redux/actions/userActions";
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -13,6 +13,13 @@ const Profile = () => {
   const logoutHandler = () => {
     dispatch(logoutUser());
     history.push("/");
+  };
+
+  const imageHandler = (event) => {
+    const image = event.target.files[0];
+    const formData = new FormData();
+    formData.append("image", image);
+    dispatch(uploadImage(formData, user.userId));
   };
 
   return (
@@ -33,6 +40,19 @@ const Profile = () => {
         <StyledGroup>
           <p>Role:</p>
           <div>{user.role}</div>
+        </StyledGroup>
+
+        <StyledGroup>
+          <form>
+            <label htmlFor="image">Upload your image here!</label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              accept=".jpg, .png, .jpeg"
+              onChange={imageHandler}
+            />
+          </form>
         </StyledGroup>
 
         <StyledGroup>
@@ -66,7 +86,7 @@ const StyledDetails = styled.div`
 
 const StyledGroup = styled.div`
   width: 100%;
-  margin: 2.5em 0em;
+  margin: 1.5em 0em;
   display: flex;
   flex-direction: column;
 
@@ -75,6 +95,25 @@ const StyledGroup = styled.div`
     font-size: 1.5em;
     margin-bottom: 0.5rem;
     display: inline-block;
+  }
+
+  form > label {
+    cursor: pointer;
+    display: inline-block;
+    color: grey;
+    width: 100%;
+    background: transparent;
+    padding: 0.85em 1.25em;
+    border: 1px solid grey;
+    border-radius: 24px;
+    outline: transparent;
+    text-align: left;
+  }
+
+  form > input[type="file"] {
+    opacity: 0;
+    z-index: -1;
+    display: none;
   }
 
   & > div,

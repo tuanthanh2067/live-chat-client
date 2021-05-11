@@ -78,6 +78,23 @@ export const signupUser = (newUserData) => (dispatch) => {
     });
 };
 
+export const uploadImage = (image, userId) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .post(`${API_URL}/users/upload-image?userId=${userId}`, image)
+    .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch(getUserData());
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data.errors,
+      });
+    });
+};
+
 export const logoutUser = () => (dispatch) => {
   localStorage.removeItem("userToken");
   delete axios.defaults.headers.common["Authorization"];
