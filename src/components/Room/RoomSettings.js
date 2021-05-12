@@ -1,15 +1,21 @@
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import Loading from "../Loading/Loading";
 
 import { API_URL } from "../../config/index";
 
+import { updateAdmin, updateMember } from "../../redux/actions/dataActions";
+
 import MinimalProfile from "../Profile/MinimalProfile";
-import { SET_ERRORS } from "../../redux/types";
+import { SET_ERRORS, CLEAR_ERRORS } from "../../redux/types";
 
 export default function RoomSettings() {
   const { id } = useParams();
@@ -18,7 +24,35 @@ export default function RoomSettings() {
   const [admins, setAdmins] = useState([]);
   const [members, setMembers] = useState([]);
 
+  const [newAdmin, setNewAdmin] = useState("");
+  const [newMember, setNewMember] = useState("");
+
+  const errors = useSelector((state) => state.UI.errors);
+  const messages = useSelector((state) => state.UI.messages);
+
+  const loading = useSelector((state) => state.UI.loading);
+
   dayjs.extend(relativeTime);
+
+  const addAdminHandler = (e) => {
+    e.preventDefault();
+    dispatch(updateAdmin(newAdmin, id));
+  };
+
+  const addMemberHandler = (e) => {
+    e.preventDefault();
+    dispatch(updateMember(newMember, id));
+  };
+
+  useEffect(() => {
+    toast(errors || messages);
+
+    return () => {
+      dispatch({
+        type: CLEAR_ERRORS,
+      });
+    };
+  }, [errors, messages, dispatch]);
 
   useEffect(() => {
     axios.get(`${API_URL}/rooms/${id}`).then((res) => {
@@ -56,6 +90,7 @@ export default function RoomSettings() {
 
   return (
     <StyledRoomSettings>
+      <ToastContainer />
       <StyledLeft>
         {admins && (
           <StyledAdmins>
@@ -104,17 +139,34 @@ export default function RoomSettings() {
           </>
         )}
 
-        <form>
+        <form onSubmit={addMemberHandler}>
           <label>Add new members</label>
-          <input type="text" placeholder="Type their user id or user name" />
-
-          <input type="submit" value="add" />
+          <input
+            type="text"
+            placeholder="Type their user id"
+            value={newMember}
+            onChange={(e) => {
+              setNewMember(e.target.value);
+            }}
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? <Loading /> : "add"}
+          </button>
         </form>
 
-        <form>
+        <form onSubmit={addAdminHandler}>
           <label>Add admins</label>
-          <input type="text" placeholder="Type their user id or user name" />
-          <input type="submit" value="add" />
+          <input
+            type="text"
+            placeholder="Type their user id"
+            value={newAdmin}
+            onChange={(e) => {
+              setNewAdmin(e.target.value);
+            }}
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? <Loading /> : "add"}
+          </button>
         </form>
 
         <button>Delete this room</button>
@@ -171,12 +223,12 @@ const StyledRight = styled.div`
   form {
     display: flex;
     flex-direction: column;
-    margin-bottom: 1em;
+    margin-bottom: 0.8em;
 
     label {
       color: white;
       font-size: 1.5em;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.35rem;
     }
   }
 
@@ -192,8 +244,8 @@ const StyledRight = styled.div`
     text-align: left;
   }
 
-  input[type="submit"] {
-    margin-top: 0.5em;
+  button[type="submit"] {
+    margin-top: 0.35em;
     width: 25%;
     text-align: center;
     margin-left: auto;
@@ -201,11 +253,11 @@ const StyledRight = styled.div`
 `;
 
 const StyledSection = styled.div`
-  margin-bottom: 1em;
+  margin-bottom: 0.8em;
   & > p {
     color: white;
     font-size: 1.5em;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
     display: inline-block;
   }
 

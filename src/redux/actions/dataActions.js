@@ -10,6 +10,7 @@ import {
   SET_ACTIVE_GOSSIPERS,
   SET_SEARCH_ROOMS,
   SET_FAVORITE_ROOMS,
+  SET_MESSAGES,
 } from "../types";
 import { API_URL } from "../../config/index";
 
@@ -192,5 +193,39 @@ export const getActiveGossipers = (amount, page) => (dispatch) => {
         type: SET_ERRORS,
         payload: err.response.data.errors,
       });
+    });
+};
+
+export const updateAdmin = (userId, roomId) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .put(`${API_URL}/rooms/update/${roomId}/admin`, {
+      userId: userId,
+    })
+    .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({ type: SET_MESSAGES, payload: res.data.messages });
+      dispatch(getCurrentRoom(roomId));
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: SET_ERRORS, payload: err.response.data.errors });
+    });
+};
+
+export const updateMember = (userId, roomId) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .put(`${API_URL}/rooms/update/${roomId}/member`, {
+      userId: userId,
+    })
+    .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({ type: SET_MESSAGES, payload: res.data.messages });
+      dispatch(getCurrentRoom(roomId));
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: SET_ERRORS, payload: err.response.data.errors });
     });
 };
