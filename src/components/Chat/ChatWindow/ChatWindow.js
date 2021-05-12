@@ -17,6 +17,8 @@ import { SocketContext } from "../../../context/socketContext";
 import {
   updateFavoriteInRoom,
   updateUserInRoom,
+  getCurrentRoom,
+  getIsLiked,
 } from "../../../redux/actions/dataActions";
 
 import { CLEAR_CURRENT_ROOM } from "../../../redux/types";
@@ -59,6 +61,8 @@ const ChatWindow = () => {
     // only want to run this one first time after user, id are available
     if (userId && id) {
       dispatch(updateUserInRoom(id, userId));
+      dispatch(getCurrentRoom(id));
+      dispatch(getIsLiked(id));
     }
   }, [userId, id, dispatch]);
 

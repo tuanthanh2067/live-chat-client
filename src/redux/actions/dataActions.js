@@ -11,6 +11,7 @@ import {
   SET_SEARCH_ROOMS,
   SET_FAVORITE_ROOMS,
   SET_MESSAGES,
+  SET_IS_LIKED,
 } from "../types";
 import { API_URL } from "../../config/index";
 
@@ -145,8 +146,8 @@ export const updateUserInRoom = (roomId) => (dispatch) => {
     .then((res) => {
       dispatch({ type: CLEAR_ERRORS });
       dispatch({
-        type: SET_CURRENT_ROOM,
-        payload: res.data,
+        type: SET_MESSAGES,
+        payload: res.data.messages,
       });
     })
     .catch((err) => {
@@ -165,7 +166,7 @@ export const updateFavoriteInRoom = (roomId, type) => (dispatch) => {
     })
     .then((res) => {
       dispatch({
-        type: SET_CURRENT_ROOM,
+        type: SET_IS_LIKED,
         payload: res.data,
       });
     })
@@ -223,6 +224,18 @@ export const updateMember = (userId, roomId) => (dispatch) => {
       dispatch({ type: CLEAR_ERRORS });
       dispatch({ type: SET_MESSAGES, payload: res.data.messages });
       dispatch(getCurrentRoom(roomId));
+    })
+    .catch((err) => {
+      console.log(err);
+      dispatch({ type: SET_ERRORS, payload: err.response.data.errors });
+    });
+};
+
+export const getIsLiked = (roomId) => (dispatch) => {
+  axios
+    .get(`${API_URL}/rooms/${roomId}/isLiked`)
+    .then((res) => {
+      dispatch({ type: SET_IS_LIKED, payload: res.data });
     })
     .catch((err) => {
       console.log(err);
