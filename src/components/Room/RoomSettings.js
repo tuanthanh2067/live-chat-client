@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -12,7 +12,7 @@ import { SET_ERRORS } from "../../redux/types";
 export default function RoomSettings() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [room, setRoom] = useState();
+  const [room, setRoom] = useState(null);
   const [admins, setAdmins] = useState([]);
   const [members, setMembers] = useState([]);
 
@@ -57,8 +57,8 @@ export default function RoomSettings() {
           <StyledAdmins>
             <h2>Admins: {admins.length}</h2>
             {admins.map((admin, idx) => (
-              <StyledUser>
-                <MinimalProfile key={idx} profile={admin} />
+              <StyledUser key={idx}>
+                <MinimalProfile profile={admin} />
               </StyledUser>
             ))}
           </StyledAdmins>
@@ -67,8 +67,8 @@ export default function RoomSettings() {
           <StyledMembers>
             <h2>Members: {members.length}</h2>
             {members.map((member, idx) => (
-              <StyledUser>
-                <MinimalProfile key={idx} profile={member} />
+              <StyledUser key={idx}>
+                <MinimalProfile profile={member} />
               </StyledUser>
             ))}
           </StyledMembers>
@@ -76,25 +76,29 @@ export default function RoomSettings() {
       </StyledLeft>
 
       <StyledRight>
-        <StyledSection>
-          <p>Max members</p>
-          <div>{room.maxNumbers}</div>
-        </StyledSection>
+        {room && (
+          <>
+            <StyledSection>
+              <p>Max members</p>
+              <div>{room.maxNumbers}</div>
+            </StyledSection>
 
-        <StyledSection>
-          <p>Date created</p>
-          <div>{room.dateCreated}</div>
-        </StyledSection>
+            <StyledSection>
+              <p>Date created</p>
+              <div>{room.dateCreated}</div>
+            </StyledSection>
 
-        <StyledSection>
-          <p>Room id</p>
-          <div>{room.roomId}</div>
-        </StyledSection>
+            <StyledSection>
+              <p>Room id</p>
+              <div>{room.roomId}</div>
+            </StyledSection>
 
-        <StyledSection>
-          <p>Room Name</p>
-          <div>{room.roomName}</div>
-        </StyledSection>
+            <StyledSection>
+              <p>Room Name</p>
+              <div>{room.roomName}</div>
+            </StyledSection>
+          </>
+        )}
 
         <form>
           <label>Add new members</label>
