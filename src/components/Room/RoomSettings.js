@@ -3,6 +3,8 @@ import { useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 import { API_URL } from "../../config/index";
 
@@ -15,6 +17,8 @@ export default function RoomSettings() {
   const [room, setRoom] = useState(null);
   const [admins, setAdmins] = useState([]);
   const [members, setMembers] = useState([]);
+
+  dayjs.extend(relativeTime);
 
   useEffect(() => {
     axios.get(`${API_URL}/rooms/${id}`).then((res) => {
@@ -85,7 +89,7 @@ export default function RoomSettings() {
 
             <StyledSection>
               <p>Date created</p>
-              <div>{room.dateCreated}</div>
+              <div>{dayjs(room.dateCreated).fromNow()}</div>
             </StyledSection>
 
             <StyledSection>
@@ -123,6 +127,10 @@ const StyledRoomSettings = styled.div`
   width: 100%;
   min-height: 400px;
   display: flex;
+
+  @media (max-width: 550px) {
+    flex-direction: column;
+  }
 `;
 
 const StyledLeft = styled.div`

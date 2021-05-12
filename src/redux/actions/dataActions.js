@@ -61,13 +61,11 @@ export const getPopularRooms =
   };
 
 export const getYourRooms =
-  (userId, amount, page = 0) =>
+  (amount, page = 0) =>
   (dispatch) => {
     dispatch({ type: LOADING_UI });
     axios
-      .get(
-        `${API_URL}/rooms/your-rooms?userId=${userId}&amount=${amount}&page=${page}`
-      )
+      .get(`${API_URL}/rooms/your-rooms?amount=${amount}&page=${page}`)
       .then((res) => {
         dispatch({ type: CLEAR_ERRORS });
         dispatch({
@@ -104,12 +102,10 @@ export const getSearchRooms = (amount, page, title) => (dispatch) => {
     });
 };
 
-export const getFavoriteRooms = (userId, amount, page) => (dispatch) => {
+export const getFavoriteRooms = (amount, page) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
-    .get(
-      `${API_URL}/rooms/favorite?userId=${userId}&amount=${amount}&page=${page}`
-    )
+    .get(`${API_URL}/rooms/favorite?amount=${amount}&page=${page}`)
     .then((res) => {
       dispatch({ type: CLEAR_ERRORS });
       dispatch({ type: SET_FAVORITE_ROOMS, payload: res.data });
@@ -142,9 +138,9 @@ export const getCurrentRoom = (id) => (dispatch) => {
     });
 };
 
-export const updateUserInRoom = (roomId, userId) => (dispatch) => {
+export const updateUserInRoom = (roomId) => (dispatch) => {
   axios
-    .put(`${API_URL}/rooms/update/${roomId}/user`, { userId: userId })
+    .put(`${API_URL}/rooms/update/${roomId}/user`)
     .then((res) => {
       dispatch({ type: CLEAR_ERRORS });
       dispatch({
@@ -161,10 +157,9 @@ export const updateUserInRoom = (roomId, userId) => (dispatch) => {
     });
 };
 
-export const updateFavoriteInRoom = (roomId, userId, type) => (dispatch) => {
+export const updateFavoriteInRoom = (roomId, type) => (dispatch) => {
   axios
     .put(`${API_URL}/rooms/update/${roomId}/favorite`, {
-      userId: userId,
       type: type,
     })
     .then((res) => {

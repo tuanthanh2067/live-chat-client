@@ -81,7 +81,7 @@ export const signupUser = (newUserData) => (dispatch) => {
 export const uploadImage = (image, userId) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
-    .post(`${API_URL}/users/upload-image?userId=${userId}`, image)
+    .post(`${API_URL}/users/upload-image`, image)
     .then((res) => {
       dispatch({ type: CLEAR_ERRORS });
       dispatch(getUserData());

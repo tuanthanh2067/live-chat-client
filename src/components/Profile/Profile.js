@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory, Link } from "react-router-dom";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 import { logoutUser, uploadImage } from "../../redux/actions/userActions";
 
@@ -8,7 +10,8 @@ const Profile = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.user);
-  const date = new Date(user.dateCreated).toUTCString();
+
+  dayjs.extend(relativeTime);
 
   const logoutHandler = () => {
     dispatch(logoutUser());
@@ -35,7 +38,7 @@ const Profile = () => {
         </StyledGroup>
         <StyledGroup>
           <p>Joined:</p>
-          <div>{date}</div>
+          <div>{dayjs(user.dateCreated).fromNow()}</div>
         </StyledGroup>
         <StyledGroup>
           <p>Role:</p>
