@@ -20,6 +20,7 @@ import PopularRooms from "./components/Room/PopularRooms";
 import SearchRooms from "./components/Room/SearchRooms";
 import YourRooms from "./components/Room/YourRooms";
 import FavoriteRooms from "./components/Room/FavoriteRooms";
+import RoomSettings from "./components/Room/RoomSettings";
 
 // socket context
 import { SocketProvider } from "./context/socketContext";
@@ -102,6 +103,12 @@ function App() {
                     authenticated={authenticated}
                     exact
                     component={ChatWindow}
+                  />
+                  <GuardedRoute
+                    path="/room/:id/settings"
+                    authenticated={authenticated}
+                    exact
+                    component={RoomSettings}
                   />
                   <GuardedRoute
                     path="/rooms/popular"

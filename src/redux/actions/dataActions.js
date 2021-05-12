@@ -38,47 +38,51 @@ export const createRoom = (newRoom, history) => (dispatch) => {
     });
 };
 
-export const getPopularRooms = (amount, page = 0) => (dispatch) => {
-  dispatch({ type: LOADING_UI });
-  axios
-    .get(`${API_URL}/rooms/get-popular?amount=${amount}&page=${page}`)
-    .then((res) => {
-      dispatch({ type: CLEAR_ERRORS });
-      dispatch({
-        type: SET_POPULAR_ROOMS,
-        payload: res.data,
+export const getPopularRooms =
+  (amount, page = 0) =>
+  (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    axios
+      .get(`${API_URL}/rooms/get-popular?amount=${amount}&page=${page}`)
+      .then((res) => {
+        dispatch({ type: CLEAR_ERRORS });
+        dispatch({
+          type: SET_POPULAR_ROOMS,
+          payload: res.data,
+        });
+      })
+      .catch((err) => {
+        console.log("Can not get popular rooms", err);
+        dispatch({
+          type: SET_ERRORS,
+          payload: err.response.data.errors,
+        });
       });
-    })
-    .catch((err) => {
-      console.log("Can not get popular rooms", err);
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.response.data.errors,
-      });
-    });
-};
+  };
 
-export const getYourRooms = (userId, amount, page = 0) => (dispatch) => {
-  dispatch({ type: LOADING_UI });
-  axios
-    .get(
-      `${API_URL}/rooms/your-rooms?userId=${userId}&amount=${amount}&page=${page}`
-    )
-    .then((res) => {
-      dispatch({ type: CLEAR_ERRORS });
-      dispatch({
-        type: SET_YOUR_ROOMS,
-        payload: res.data,
+export const getYourRooms =
+  (userId, amount, page = 0) =>
+  (dispatch) => {
+    dispatch({ type: LOADING_UI });
+    axios
+      .get(
+        `${API_URL}/rooms/your-rooms?userId=${userId}&amount=${amount}&page=${page}`
+      )
+      .then((res) => {
+        dispatch({ type: CLEAR_ERRORS });
+        dispatch({
+          type: SET_YOUR_ROOMS,
+          payload: res.data,
+        });
+      })
+      .catch((err) => {
+        console.log("Can not get your rooms", err);
+        dispatch({
+          type: SET_ERRORS,
+          payload: err.response.data.errors,
+        });
       });
-    })
-    .catch((err) => {
-      console.log("Can not get your rooms", err);
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.response.data.errors,
-      });
-    });
-};
+  };
 
 export const getSearchRooms = (amount, page, title) => (dispatch) => {
   dispatch({ type: LOADING_UI });
@@ -112,6 +116,25 @@ export const getFavoriteRooms = (userId, amount, page) => (dispatch) => {
     })
     .catch((err) => {
       console.log("Can not fetching your favorite rooms", err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data.errors,
+      });
+    });
+};
+
+export const getCurrentRoom = (id) => (dispatch) => {
+  axios
+    .get(`${API_URL}/rooms/${id}`)
+    .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({
+        type: SET_CURRENT_ROOM,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      console.log("Can not get the room");
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data.errors,
