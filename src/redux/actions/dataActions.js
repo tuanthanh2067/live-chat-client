@@ -12,6 +12,7 @@ import {
   SET_FAVORITE_ROOMS,
   SET_MESSAGES,
   SET_IS_LIKED,
+  CLEAR_CURRENT_ROOM,
 } from "../types";
 import { toast } from "react-toastify";
 import { API_URL } from "../../config/index";
@@ -240,6 +241,23 @@ export const getIsLiked = (roomId) => (dispatch) => {
     .get(`${API_URL}/rooms/${roomId}/isLiked`)
     .then((res) => {
       dispatch({ type: SET_IS_LIKED, payload: res.data });
+    })
+    .catch((err) => {
+      dispatch({ type: SET_ERRORS, payload: err.response.data.errors });
+      toast(err.response.data.errors);
+    });
+};
+
+export const deleteRoom = (roomId, history) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .delete(`${API_URL}/rooms/${roomId}`)
+    .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({ type: SET_MESSAGES, payload: res.data.messages });
+      dispatch({ type: CLEAR_CURRENT_ROOM });
+      history.push("/");
+      toast(res.data.messages);
     })
     .catch((err) => {
       dispatch({ type: SET_ERRORS, payload: err.response.data.errors });

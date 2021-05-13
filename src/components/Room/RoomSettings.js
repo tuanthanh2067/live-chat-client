@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
@@ -14,6 +14,7 @@ import {
   getCurrentRoom,
   updateAdmin,
   updateMember,
+  deleteRoom,
 } from "../../redux/actions/dataActions";
 
 import MinimalProfile from "../Profile/MinimalProfile";
@@ -22,6 +23,7 @@ import { SET_ERRORS } from "../../redux/types";
 export default function RoomSettings() {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
   const [admins, setAdmins] = useState([]);
   const [members, setMembers] = useState([]);
 
@@ -41,6 +43,10 @@ export default function RoomSettings() {
   const addMemberHandler = (e) => {
     e.preventDefault();
     dispatch(updateMember(newMember, id));
+  };
+
+  const deleteRoomHandler = () => {
+    dispatch(deleteRoom(id, history));
   };
 
   useEffect(() => {
@@ -155,7 +161,7 @@ export default function RoomSettings() {
           </button>
         </form>
 
-        <button>Delete this room</button>
+        <button onClick={deleteRoomHandler}>Delete this room</button>
       </StyledRight>
     </StyledRoomSettings>
   );
