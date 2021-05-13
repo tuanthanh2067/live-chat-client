@@ -13,6 +13,7 @@ import {
   SET_MESSAGES,
   SET_IS_LIKED,
 } from "../types";
+import { toast } from "react-toastify";
 import { API_URL } from "../../config/index";
 
 export const createRoom = (newRoom, history) => (dispatch) => {
@@ -37,6 +38,9 @@ export const createRoom = (newRoom, history) => (dispatch) => {
         payload:
           err.response.data.errors || err.response.data.validation.body.message,
       });
+      toast(
+        err.response.data.errors || err.response.data.validation.body.message
+      );
     });
 };
 
@@ -54,11 +58,11 @@ export const getPopularRooms =
         });
       })
       .catch((err) => {
-        console.log("Can not get popular rooms", err);
         dispatch({
           type: SET_ERRORS,
           payload: err.response.data.errors,
         });
+        toast(err.response.data.errors);
       });
   };
 
@@ -76,11 +80,11 @@ export const getYourRooms =
         });
       })
       .catch((err) => {
-        console.log("Can not get your rooms", err);
         dispatch({
           type: SET_ERRORS,
           payload: err.response.data.errors,
         });
+        toast(err.response.data.errors);
       });
   };
 
@@ -96,11 +100,11 @@ export const getSearchRooms = (amount, page, title) => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log("Can not perform searching", err);
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data.errors,
       });
+      toast(err.response.data.errors);
     });
 };
 
@@ -132,11 +136,11 @@ export const getCurrentRoom = (id) => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log("Can not get the room");
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data.errors,
       });
+      toast(err.response.data.errors);
     });
 };
 
@@ -145,17 +149,15 @@ export const updateUserInRoom = (roomId) => (dispatch) => {
     .put(`${API_URL}/rooms/update/${roomId}/user`)
     .then((res) => {
       dispatch({ type: CLEAR_ERRORS });
-      dispatch({
-        type: SET_MESSAGES,
-        payload: res.data.messages,
-      });
+      dispatch({ type: SET_MESSAGES, payload: res.data.messages });
+      toast(res.data.messages);
     })
     .catch((err) => {
-      console.log("Can not update the room");
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data.errors,
       });
+      toast(err.response.data.errors);
     });
 };
 
@@ -171,11 +173,11 @@ export const updateFavoriteInRoom = (roomId, type) => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log("Can not update the room");
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data.errors,
       });
+      toast(err.response.data.errors);
     });
 };
 
@@ -189,11 +191,11 @@ export const getActiveGossipers = (amount, page) => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log("Can not get active gossipers");
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data.errors,
       });
+      toast(err.response.data.errors);
     });
 };
 
@@ -206,11 +208,12 @@ export const updateAdmin = (userId, roomId) => (dispatch) => {
     .then((res) => {
       dispatch({ type: CLEAR_ERRORS });
       dispatch({ type: SET_MESSAGES, payload: res.data.messages });
+      toast(res.data.messages);
       dispatch(getCurrentRoom(roomId));
     })
     .catch((err) => {
-      console.log(err);
       dispatch({ type: SET_ERRORS, payload: err.response.data.errors });
+      toast(err.response.data.errors);
     });
 };
 
@@ -223,11 +226,12 @@ export const updateMember = (userId, roomId) => (dispatch) => {
     .then((res) => {
       dispatch({ type: CLEAR_ERRORS });
       dispatch({ type: SET_MESSAGES, payload: res.data.messages });
+      toast(res.data.messages);
       dispatch(getCurrentRoom(roomId));
     })
     .catch((err) => {
-      console.log(err);
       dispatch({ type: SET_ERRORS, payload: err.response.data.errors });
+      toast(err.response.data.errors);
     });
 };
 
@@ -238,7 +242,7 @@ export const getIsLiked = (roomId) => (dispatch) => {
       dispatch({ type: SET_IS_LIKED, payload: res.data });
     })
     .catch((err) => {
-      console.log(err);
       dispatch({ type: SET_ERRORS, payload: err.response.data.errors });
+      toast(err.response.data.errors);
     });
 };

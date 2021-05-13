@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
@@ -9,34 +9,16 @@ import {
   colors,
   animals,
 } from "unique-names-generator";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { signupUser } from "../../../redux/actions/userActions";
-import { CLEAR_ERRORS, CLEAR_MESSAGES } from "../../../redux/types";
 
 import Loading from "../../Loading/Loading";
 
 const Signup = () => {
   const loading = useSelector((state) => state.UI.loading);
-  const errors = useSelector((state) => state.UI.errors);
-  const messages = useSelector((state) => state.UI.messages);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    toast(errors || messages);
-
-    return () => {
-      dispatch({
-        type: CLEAR_ERRORS,
-      });
-      dispatch({
-        type: CLEAR_MESSAGES,
-      });
-    };
-  }, [errors, messages, dispatch]);
 
   const formik = useFormik({
     initialValues: {
@@ -155,7 +137,6 @@ const Signup = () => {
           </StyledLearnMore>
         </StyledContainer>
       </StyledBoxRight>
-      <ToastContainer />
     </>
   );
 };

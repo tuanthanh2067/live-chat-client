@@ -5,31 +5,30 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 import Loading from "../Loading/Loading";
 
 import { API_URL } from "../../config/index";
 
-import { updateAdmin, updateMember } from "../../redux/actions/dataActions";
+import {
+  getCurrentRoom,
+  updateAdmin,
+  updateMember,
+} from "../../redux/actions/dataActions";
 
 import MinimalProfile from "../Profile/MinimalProfile";
-import { SET_ERRORS, CLEAR_ERRORS } from "../../redux/types";
+import { SET_ERRORS } from "../../redux/types";
 
 export default function RoomSettings() {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const [room, setRoom] = useState(null);
   const [admins, setAdmins] = useState([]);
   const [members, setMembers] = useState([]);
 
   const [newAdmin, setNewAdmin] = useState("");
   const [newMember, setNewMember] = useState("");
 
-  const errors = useSelector((state) => state.UI.errors);
-  const messages = useSelector((state) => state.UI.messages);
-
+  const currentRoom = useSelector((state) => state.data.currentRoom);
   const loading = useSelector((state) => state.UI.loading);
 
   dayjs.extend(relativeTime);
@@ -45,25 +44,13 @@ export default function RoomSettings() {
   };
 
   useEffect(() => {
-    toast(errors || messages);
-
-    return () => {
-      dispatch({
-        type: CLEAR_ERRORS,
-      });
-    };
-  }, [errors, messages, dispatch]);
+    dispatch(getCurrentRoom(id));
+  }, [dispatch, id]);
 
   useEffect(() => {
-    axios.get(`${API_URL}/rooms/${id}`).then((res) => {
-      setRoom(res.data);
-    });
-  }, [id]);
-
-  useEffect(() => {
-    if (room) {
+    if (currentRoom) {
       axios
-        .get(`${API_URL}/users/get-users?users=${room.admins}`)
+        .get(`${API_URL}/users/get-users?users=${currentRoom.admins}`)
         .then((res) => {
           setAdmins(res.data);
         })
@@ -75,7 +62,7 @@ export default function RoomSettings() {
         });
 
       axios
-        .get(`${API_URL}/users/get-users?users=${room.members}`)
+        .get(`${API_URL}/users/get-users?users=${currentRoom.members}`)
         .then((res) => {
           setMembers(res.data);
         })
@@ -86,11 +73,10 @@ export default function RoomSettings() {
           });
         });
     }
-  }, [room, dispatch]);
+  }, [currentRoom, dispatch]);
 
   return (
     <StyledRoomSettings>
-      <ToastContainer />
       <StyledLeft>
         {admins && (
           <StyledAdmins>
@@ -115,26 +101,26 @@ export default function RoomSettings() {
       </StyledLeft>
 
       <StyledRight>
-        {room && (
+        {currentRoom && (
           <>
             <StyledSection>
               <p>Max members</p>
-              <div>{room.maxNumbers}</div>
+              <div>{currentRoom.maxNumbers}</div>
             </StyledSection>
 
             <StyledSection>
               <p>Date created</p>
-              <div>{dayjs(room.dateCreated).fromNow()}</div>
+              <div>{dayjs(currentRoom.dateCreated).fromNow()}</div>
             </StyledSection>
 
             <StyledSection>
               <p>Room id</p>
-              <div>{room.roomId}</div>
+              <div>{currentRoom.roomId}</div>
             </StyledSection>
 
             <StyledSection>
               <p>Room Name</p>
-              <div>{room.roomName}</div>
+              <div>{currentRoom.roomName}</div>
             </StyledSection>
           </>
         )}

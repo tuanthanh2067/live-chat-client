@@ -1,34 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import { Link, useHistory } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 // redux
 import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../../../redux/actions/userActions";
-import { CLEAR_ERRORS } from "../../../redux/types";
 
 import Loading from "../../Loading/Loading";
 
 const Login = () => {
   const history = useHistory();
-
   const loading = useSelector((state) => state.UI.loading);
-  const errors = useSelector((state) => state.UI.errors);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    toast(errors);
-
-    return () => {
-      dispatch({
-        type: CLEAR_ERRORS,
-      });
-    };
-  }, [errors, dispatch]);
 
   const formik = useFormik({
     initialValues: {
@@ -91,7 +76,6 @@ const Login = () => {
           </StyledLearnMore>
         </StyledContainer>
       </StyledBoxRight>
-      <ToastContainer />
     </>
   );
 };

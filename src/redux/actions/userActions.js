@@ -8,7 +8,7 @@ import {
   SET_MESSAGES,
   CLEAR_MESSAGES,
 } from "../types";
-
+import { toast } from "react-toastify";
 import axios from "axios";
 import { API_URL } from "../../config/index";
 
@@ -30,7 +30,7 @@ export const getUserData = () => (dispatch) => {
       });
     })
     .catch((err) => {
-      console.log(err);
+      toast(err.response.data.errors);
     });
 };
 
@@ -42,9 +42,9 @@ export const loginUser = (userData, history) => (dispatch) => {
   axios
     .post(`${API_URL}/auth/login`, userData)
     .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
       setAuthorizationHeader(res.data.token);
       dispatch(getUserData());
-      dispatch({ type: CLEAR_ERRORS });
       history.push("/home");
     })
     .catch((err) => {
@@ -52,6 +52,7 @@ export const loginUser = (userData, history) => (dispatch) => {
         type: SET_ERRORS,
         payload: err.response.data.errors,
       });
+      toast(err.response.data.errors);
     });
 };
 
@@ -64,7 +65,8 @@ export const signupUser = (newUserData) => (dispatch) => {
     .post(`${API_URL}/auth/signup`, newUserData)
     .then((res) => {
       dispatch({ type: CLEAR_ERRORS });
-      dispatch({ type: SET_MESSAGES, payload: res.data.message });
+      dispatch({ type: SET_MESSAGES, payload: res.data.messages });
+      toast(res.data.messages);
     })
     .catch((err) => {
       dispatch({
@@ -75,6 +77,9 @@ export const signupUser = (newUserData) => (dispatch) => {
         payload:
           err.response.data.errors || err.response.data.validation.body.message,
       });
+      toast(
+        err.response.data.errors || err.response.data.validation.body.message
+      );
     });
 };
 
@@ -87,11 +92,11 @@ export const uploadImage = (image, userId) => (dispatch) => {
       dispatch(getUserData());
     })
     .catch((err) => {
-      console.log(err);
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data.errors,
       });
+      toast(err.response.data.errors);
     });
 };
 

@@ -3,6 +3,8 @@ import styled, { ThemeProvider } from "styled-components";
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import { useModes } from "./helper/useModes";
 import { lightTheme, darkTheme } from "./helper/themes";
@@ -64,6 +66,7 @@ function App() {
     <ThemeProvider theme={themeMode}>
       <SocketProvider>
         <StyledApp>
+          <ToastContainer />
           <Switch>
             <Route path="/" exact>
               {authenticated ? (

@@ -3,8 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 import ChatWindowHeader from "./ChatWindowHeader";
 import ChatWindowFooter from "./ChatWindowFooter";
@@ -21,7 +20,11 @@ import {
   getIsLiked,
 } from "../../../redux/actions/dataActions";
 
-import { CLEAR_CURRENT_ROOM } from "../../../redux/types";
+import {
+  CLEAR_CURRENT_ROOM,
+  CLEAR_ERRORS,
+  CLEAR_MESSAGES,
+} from "../../../redux/types";
 
 const ChatWindow = () => {
   const dispatch = useDispatch();
@@ -107,6 +110,12 @@ const ChatWindow = () => {
         dispatch({
           type: CLEAR_CURRENT_ROOM,
         });
+        dispatch({
+          type: CLEAR_MESSAGES,
+        });
+        dispatch({
+          type: CLEAR_ERRORS,
+        });
       };
     }
   }, [userName, userId, id, socket, dispatch, image]);
@@ -122,8 +131,6 @@ const ChatWindow = () => {
       />
       <ChatWindowBody messages={messages} />
       <ChatWindowFooter chat={chat} setChat={setChat} onSent={handleSend} />
-
-      <ToastContainer />
     </StyledChatWindow>
   );
 };
