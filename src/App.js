@@ -15,7 +15,6 @@ import MainAuth from "./components/Authentication/Main";
 import Home from "./components/Home/Home";
 import Profile from "./components/Profile/Profile";
 import Notifications from "./components/Notifications/Notifications";
-import About from "./components/About/About";
 import CreateRoom from "./components/Room/CreateRoom";
 import ChatWindow from "./components/Chat/ChatWindow/ChatWindow";
 import PopularRooms from "./components/Room/PopularRooms";
@@ -154,12 +153,6 @@ function App() {
                     authenticated={authenticated}
                     exact
                     component={Home}
-                  />
-                  <GuardedRoute
-                    path="/about"
-                    authenticated={authenticated}
-                    exact
-                    component={About}
                   />
                   <GuardedRoute
                     path="/notifications"
