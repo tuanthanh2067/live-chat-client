@@ -82,7 +82,7 @@ const StyledProfile = styled.div`
 
 const StyledDetails = styled.div`
   max-width: 600px;
-  min-width: 300px;
+  min-width: 280px;
   width: 60%;
   height: 100%;
 `;

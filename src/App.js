@@ -38,6 +38,7 @@ import AppContainer from "./components/hoc/AppContainer";
 import AppMain from "./components/hoc/AppMain";
 import AppWindow from "./components/hoc/AppWindow";
 import ActiveUsers from "./components/User/ActiveUsers";
+import AddNotification from "./components/Notifications/AddNotification";
 
 function App() {
   const [theme, themeToggler] = useModes();
@@ -159,6 +160,12 @@ function App() {
                     authenticated={authenticated}
                     exact
                     component={Notifications}
+                  />
+                  <GuardedRoute
+                    path="/notifications/add"
+                    authenticated={authenticated}
+                    exact
+                    component={AddNotification}
                   />
                 </AppWindow>
               </AppMain>

@@ -34,11 +34,12 @@ const Notifications = () => {
     content = <Loading />;
   } else {
     content = (
-      <>
+      <StyledNotifications>
         {notifications.length !== 0 ? (
           <>
-            {notifications.map((n) => (
+            {notifications.map((n, idx) => (
               <NotificationWindow
+                key={idx}
                 title={n.title}
                 description={n.description}
                 dateCreated={n.dateCreated}
@@ -59,7 +60,7 @@ const Notifications = () => {
             No more notifications to show
           </div>
         )}
-      </>
+      </StyledNotifications>
     );
   }
 
