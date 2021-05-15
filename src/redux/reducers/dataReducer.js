@@ -9,6 +9,7 @@ import {
   SET_SEARCH_ROOMS,
   SET_FAVORITE_ROOMS,
   SET_IS_LIKED,
+  SET_NOTIFICATIONS,
 } from "../types";
 
 const initialState = {
@@ -18,6 +19,7 @@ const initialState = {
   yourRooms: [],
   searchRooms: [],
   favoriteRooms: [],
+  notifications: [],
   currentRoom: null,
 };
 
@@ -76,6 +78,11 @@ const dataReducer = (state = initialState, action) => {
           ...state.currentRoom,
           isLiked: action.payload,
         },
+      };
+    case SET_NOTIFICATIONS:
+      return {
+        ...state,
+        notifications: [...action.payload],
       };
     default:
       return state;

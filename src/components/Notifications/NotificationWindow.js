@@ -1,21 +1,25 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
-export default function NotificationWindow() {
+export default function NotificationWindow({
+  title,
+  dateCreated,
+  description,
+  notificationId,
+}) {
+  dayjs.extend(relativeTime);
+
   return (
     <StyledNotificationWindow>
-      <StyledTitle>This is a notification</StyledTitle>
-      <StyledDateCreated>a month ago</StyledDateCreated>
+      <StyledTitle>{title}</StyledTitle>
+      <StyledDateCreated>{dayjs(dateCreated).fromNow()}</StyledDateCreated>
 
-      <StyledDescription>
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum is simply dummy text of the printing and
-        typesetting industry. Lorem Ipsum is simply dummy text of the printing
-        and typesetting industry.
-      </StyledDescription>
+      <StyledDescription>{description}</StyledDescription>
 
       <StyledButtons>
-        <Link to="/">
+        <Link to={`/notification/${notificationId}`}>
           <StyledButton>Read more</StyledButton>
         </Link>
       </StyledButtons>
@@ -24,7 +28,7 @@ export default function NotificationWindow() {
 }
 
 const StyledNotificationWindow = styled.div`
-  width: 90%;
+  width: 100%;
   min-height: 200px;
   padding: 1em;
   border: 1px solid grey;

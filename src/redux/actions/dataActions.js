@@ -13,6 +13,7 @@ import {
   SET_MESSAGES,
   SET_IS_LIKED,
   CLEAR_CURRENT_ROOM,
+  SET_NOTIFICATIONS,
 } from "../types";
 import { toast } from "react-toastify";
 import { API_URL } from "../../config/index";
@@ -258,6 +259,20 @@ export const deleteRoom = (roomId, history) => (dispatch) => {
       dispatch({ type: CLEAR_CURRENT_ROOM });
       history.push("/");
       toast(res.data.messages);
+    })
+    .catch((err) => {
+      dispatch({ type: SET_ERRORS, payload: err.response.data.errors });
+      toast(err.response.data.errors);
+    });
+};
+
+export const getNotifications = (amount, page) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .get(`${API_URL}/notifications?amount=${amount}&page=${page}`)
+    .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({ type: SET_NOTIFICATIONS, payload: res.data });
     })
     .catch((err) => {
       dispatch({ type: SET_ERRORS, payload: err.response.data.errors });
