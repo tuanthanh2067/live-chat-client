@@ -4,6 +4,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
 
+import { addNotification } from "../../redux/actions/dataActions";
+
 export default function AddNotification() {
   const dispatch = useDispatch();
   const [image, setImage] = useState(null);
@@ -27,6 +29,9 @@ export default function AddNotification() {
     }),
     onSubmit: (values) => {
       // values & image
+      const formData = new FormData();
+      formData.append("image", image);
+      dispatch(addNotification(values, formData));
     },
   });
 

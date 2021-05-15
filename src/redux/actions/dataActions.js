@@ -279,3 +279,28 @@ export const getNotifications = (amount, page) => (dispatch) => {
       toast(err.response.data.errors);
     });
 };
+
+export const addNotification = (values, image) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  console.log(values, image);
+  axios
+    .post(
+      `${API_URL}/notifications/add?title=${values.title}&description=${values.description}&detail=${values.detail}`,
+      image
+    )
+    .then((res) => {
+      dispatch({ type: CLEAR_ERRORS });
+      dispatch({ type: SET_MESSAGES, payload: res.data.messages });
+      toast(res.data.messages);
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_ERRORS,
+        payload:
+          err.response.data.errors || err.response.data.validation.body.message,
+      });
+      toast(
+        err.response.data.errors || err.response.data.validation.body.message
+      );
+    });
+};
