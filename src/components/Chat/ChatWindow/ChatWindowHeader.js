@@ -1,16 +1,28 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import Skeleton from "react-loading-skeleton";
 
 import { getSmallCircleImage } from "../../../helper/imageConfig";
 
-const ChatWindowHeader = ({ clients, id, setFavorite, isLiked, image }) => {
+const ChatWindowHeader = ({
+  clients,
+  id,
+  setFavorite,
+  isLiked,
+  image,
+  roomName,
+}) => {
   return (
     <StyledChatWindowHeader>
       <StyledLeft>
-        <img src={getSmallCircleImage(image)} alt="room-img"></img>
+        {image ? (
+          <img src={getSmallCircleImage(image)} alt="room-img"></img>
+        ) : (
+          <Skeleton circle={true} width={50} height={50} />
+        )}
         <div>
-          <h5>Javascript</h5>
-          <p>{clients} active</p>
+          <h5>{roomName || <Skeleton />}</h5>
+          <p>{clients ? clients + " clients" : <Skeleton />}</p>
         </div>
       </StyledLeft>
       <StyledRight>

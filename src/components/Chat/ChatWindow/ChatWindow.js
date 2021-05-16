@@ -128,6 +128,7 @@ const ChatWindow = () => {
         setFavorite={setFavoriteHandler}
         isLiked={roomInfo && roomInfo.isLiked}
         image={roomInfo && roomInfo.image}
+        roomName={roomInfo && roomInfo.roomName}
       />
       <ChatWindowBody messages={messages} />
       <ChatWindowFooter chat={chat} setChat={setChat} onSent={handleSend} />
