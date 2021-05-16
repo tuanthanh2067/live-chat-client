@@ -1,14 +1,11 @@
 import React from "react";
-import styled, { ThemeProvider } from "styled-components";
+import styled from "styled-components";
 import { Redirect, Route, Switch, useHistory } from "react-router-dom";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SkeletonTheme } from "react-loading-skeleton";
-
-import { useModes } from "./helper/useModes";
-import { lightTheme, darkTheme } from "./helper/themes";
 
 import Login from "./components/Authentication/Login/Login";
 import Signup from "./components/Authentication/Signup/Signup";
@@ -43,9 +40,6 @@ import ActiveUsers from "./components/User/ActiveUsers";
 import AddNotification from "./components/Notifications/AddNotification";
 
 function App() {
-  const [theme, themeToggler] = useModes();
-  const themeMode = theme === "light" ? lightTheme : darkTheme;
-
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -65,133 +59,131 @@ function App() {
   const authenticated = useSelector((state) => state.user.authenticated);
 
   return (
-    <ThemeProvider theme={themeMode}>
-      <SocketProvider>
-        <SkeletonTheme color="#202020" highlightColor="#444">
-          <StyledApp>
-            <ToastContainer />
-            <Switch>
-              <Route path="/" exact>
-                {authenticated ? (
-                  <Redirect to="/home" />
-                ) : (
-                  <Redirect to="/login" />
-                )}
-              </Route>
+    <SocketProvider>
+      <SkeletonTheme color="#202020" highlightColor="#444">
+        <StyledApp>
+          <ToastContainer />
+          <Switch>
+            <Route path="/" exact>
+              {authenticated ? (
+                <Redirect to="/home" />
+              ) : (
+                <Redirect to="/login" />
+              )}
+            </Route>
 
-              <Route path="/login">
-                {authenticated ? (
-                  <Redirect to="/home" />
-                ) : (
-                  <MainAuth component={Login} />
-                )}
-              </Route>
+            <Route path="/login">
+              {authenticated ? (
+                <Redirect to="/home" />
+              ) : (
+                <MainAuth component={Login} />
+              )}
+            </Route>
 
-              <Route path="/signup">
-                {authenticated ? (
-                  <Redirect to="/home" />
-                ) : (
-                  <MainAuth component={Signup} />
-                )}
-              </Route>
+            <Route path="/signup">
+              {authenticated ? (
+                <Redirect to="/home" />
+              ) : (
+                <MainAuth component={Signup} />
+              )}
+            </Route>
 
-              <AppContainer>
-                <AppMain>
-                  <AppWindow>
-                    <GuardedRoute
-                      path="/create-room"
-                      authenticated={authenticated}
-                      exact
-                      component={CreateRoom}
-                    />
-                    <GuardedRoute
-                      path="/room/:id"
-                      authenticated={authenticated}
-                      exact
-                      component={ChatWindow}
-                    />
-                    <GuardedRoute
-                      path="/room/:id/settings"
-                      authenticated={authenticated}
-                      exact
-                      component={RoomSettings}
-                    />
-                    <GuardedRoute
-                      path="/rooms/popular"
-                      authenticated={authenticated}
-                      exact
-                      component={PopularRooms}
-                    />
-                    <GuardedRoute
-                      path="/rooms/search"
-                      exact
-                      authenticated={authenticated}
-                      component={SearchRooms}
-                    />
-                    <GuardedRoute
-                      path="/rooms/yours"
-                      exact
-                      authenticated={authenticated}
-                      component={YourRooms}
-                    />
-                    <GuardedRoute
-                      path="/profile"
-                      authenticated={authenticated}
-                      exact
-                      component={Profile}
-                    />
-                    <GuardedRoute
-                      path="/users/active"
-                      authenticated={authenticated}
-                      exact
-                      component={ActiveUsers}
-                    />
-                    <GuardedRoute
-                      path="/favorites"
-                      authenticated={authenticated}
-                      exact
-                      component={FavoriteRooms}
-                    />
-                    <GuardedRoute
-                      path="/home"
-                      authenticated={authenticated}
-                      exact
-                      component={Home}
-                    />
-                    <GuardedRoute
-                      path="/notifications"
-                      authenticated={authenticated}
-                      exact
-                      component={Notifications}
-                    />
-                    <GuardedRoute
-                      path="/notifications/add"
-                      authenticated={authenticated}
-                      exact
-                      component={AddNotification}
-                    />
-                    <GuardedRoute
-                      path="/admin"
-                      authenticated={authenticated}
-                      exact
-                      component={AdminDashboard}
-                    />
-                  </AppWindow>
-                </AppMain>
-              </AppContainer>
+            <AppContainer>
+              <AppMain>
+                <AppWindow>
+                  <GuardedRoute
+                    path="/create-room"
+                    authenticated={authenticated}
+                    exact
+                    component={CreateRoom}
+                  />
+                  <GuardedRoute
+                    path="/room/:id"
+                    authenticated={authenticated}
+                    exact
+                    component={ChatWindow}
+                  />
+                  <GuardedRoute
+                    path="/room/:id/settings"
+                    authenticated={authenticated}
+                    exact
+                    component={RoomSettings}
+                  />
+                  <GuardedRoute
+                    path="/rooms/popular"
+                    authenticated={authenticated}
+                    exact
+                    component={PopularRooms}
+                  />
+                  <GuardedRoute
+                    path="/rooms/search"
+                    exact
+                    authenticated={authenticated}
+                    component={SearchRooms}
+                  />
+                  <GuardedRoute
+                    path="/rooms/yours"
+                    exact
+                    authenticated={authenticated}
+                    component={YourRooms}
+                  />
+                  <GuardedRoute
+                    path="/profile"
+                    authenticated={authenticated}
+                    exact
+                    component={Profile}
+                  />
+                  <GuardedRoute
+                    path="/users/active"
+                    authenticated={authenticated}
+                    exact
+                    component={ActiveUsers}
+                  />
+                  <GuardedRoute
+                    path="/favorites"
+                    authenticated={authenticated}
+                    exact
+                    component={FavoriteRooms}
+                  />
+                  <GuardedRoute
+                    path="/home"
+                    authenticated={authenticated}
+                    exact
+                    component={Home}
+                  />
+                  <GuardedRoute
+                    path="/notifications"
+                    authenticated={authenticated}
+                    exact
+                    component={Notifications}
+                  />
+                  <GuardedRoute
+                    path="/notifications/add"
+                    authenticated={authenticated}
+                    exact
+                    component={AddNotification}
+                  />
+                  <GuardedRoute
+                    path="/admin"
+                    authenticated={authenticated}
+                    exact
+                    component={AdminDashboard}
+                  />
+                </AppWindow>
+              </AppMain>
+            </AppContainer>
 
-              <Route render={() => <h1>404 Not Found</h1>} />
-            </Switch>
-          </StyledApp>
-        </SkeletonTheme>
-      </SocketProvider>
-    </ThemeProvider>
+            <Route render={() => <h1>404 Not Found</h1>} />
+          </Switch>
+        </StyledApp>
+      </SkeletonTheme>
+    </SocketProvider>
   );
 }
 
 const StyledApp = styled.div`
-  background: ${({ theme }) => theme.body};
-  color: ${({ theme }) => theme.text};
+  background: #171726;
+  color: white;
 
   width: 100%;
   height: 100%;
