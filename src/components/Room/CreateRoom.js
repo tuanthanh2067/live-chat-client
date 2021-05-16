@@ -100,9 +100,8 @@ const StyledCreateRoom = styled.div`
 `;
 
 const StyledForm = styled.form`
-  max-width: 600px;
-  min-width: 300px;
-  width: 60%;
+  max-width: 700px;
+  width: 100%;
   height: 100%;
 
   button {

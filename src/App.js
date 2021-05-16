@@ -22,6 +22,7 @@ import SearchRooms from "./components/Room/SearchRooms";
 import YourRooms from "./components/Room/YourRooms";
 import FavoriteRooms from "./components/Room/FavoriteRooms";
 import RoomSettings from "./components/Room/RoomSettings";
+import AdminDashboard from "./components/Admin/Dashboard";
 
 // socket context
 import { SocketProvider } from "./context/socketContext";
@@ -166,6 +167,12 @@ function App() {
                     authenticated={authenticated}
                     exact
                     component={AddNotification}
+                  />
+                  <GuardedRoute
+                    path="/admin"
+                    authenticated={authenticated}
+                    exact
+                    component={AdminDashboard}
                   />
                 </AppWindow>
               </AppMain>

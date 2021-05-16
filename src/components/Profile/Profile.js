@@ -45,6 +45,14 @@ const Profile = () => {
           <div>{user.role}</div>
         </StyledGroup>
 
+        {user.role === "admin" && (
+          <StyledGroup>
+            <Link to="/admin">
+              <button>Admin dashboard</button>
+            </Link>
+          </StyledGroup>
+        )}
+
         <StyledGroup>
           <form>
             <label htmlFor="image">Upload your image here!</label>
@@ -81,15 +89,14 @@ const StyledProfile = styled.div`
 `;
 
 const StyledDetails = styled.div`
-  max-width: 600px;
-  min-width: 280px;
-  width: 60%;
+  max-width: 700px;
+  width: 100%;
   height: 100%;
 `;
 
 const StyledGroup = styled.div`
   width: 100%;
-  margin: 1.5em 0em;
+  margin: 1.25em 0em;
   display: flex;
   flex-direction: column;
 

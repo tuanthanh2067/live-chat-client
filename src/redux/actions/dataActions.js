@@ -282,7 +282,6 @@ export const getNotifications = (amount, page) => (dispatch) => {
 
 export const addNotification = (values, image) => (dispatch) => {
   dispatch({ type: LOADING_UI });
-  console.log(values, image);
   axios
     .post(
       `${API_URL}/notifications/add?title=${values.title}&description=${values.description}&detail=${values.detail}`,
