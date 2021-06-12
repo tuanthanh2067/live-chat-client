@@ -12,7 +12,6 @@ const CreateRoom = () => {
   const history = useHistory();
 
   const loading = useSelector((state) => state.UI.loading);
-  const errors = useSelector((state) => state.UI.errors);
 
   const formik = useFormik({
     initialValues: {
@@ -20,6 +19,7 @@ const CreateRoom = () => {
       description: "",
       visibility: "public",
       max: "",
+      password: "default",
     },
     validationSchema: Yup.object({
       name: Yup.string().required("Room name is required"),
@@ -28,6 +28,7 @@ const CreateRoom = () => {
       max: Yup.number()
         .typeError("Value must be a number")
         .positive("Must be more than zero"),
+      password: Yup.string().required("Password is required"),
     }),
     onSubmit: (values) => {
       // convert the string number to number before forward it to server
@@ -75,6 +76,20 @@ const CreateRoom = () => {
           <StyledError>{formik.errors.visibility}</StyledError>
         </StyledFormGroup>
 
+        {formik.values.visibility === "private" && (
+          <StyledFormGroup>
+            <label>Password</label>
+            <input
+              type="text"
+              name="password"
+              placeholder="Room password"
+              value={formik.values.password}
+              onChange={formik.handleChange}
+            ></input>
+            <StyledError>{formik.errors.password}</StyledError>
+          </StyledFormGroup>
+        )}
+
         <StyledFormGroup>
           <label>Max members</label>
           <input
@@ -88,7 +103,6 @@ const CreateRoom = () => {
         </StyledFormGroup>
 
         <button type="submit">{loading ? <Loading /> : "Create now"}</button>
-        <StyledError>{errors && `Oops! ${errors}`}</StyledError>
       </StyledForm>
     </StyledCreateRoom>
   );
@@ -123,7 +137,7 @@ const StyledFormGroup = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin: 2em 0em;
+  margin: 1em 0em;
 
   label {
     color: white;
