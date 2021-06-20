@@ -12,7 +12,6 @@ const ChatWindowFooter = ({ onSent, chat, setChat }) => {
   };
 
   const handleAddEmoji = (emoji) => {
-    console.log(emoji);
     setChat((prev) => prev + emoji.native);
   };
 
@@ -33,7 +32,7 @@ const ChatWindowFooter = ({ onSent, chat, setChat }) => {
         <Picker
           title="Pick your emoji…"
           emoji="point_up"
-          style={{ position: "absolute", bottom: "50px", left: "10px" }}
+          style={{ position: "absolute", bottom: "50px", left: "12px" }}
           theme="dark"
           onClick={(emoji) => handleAddEmoji(emoji)}
         />
