@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState, useEffect, useContext } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { Modal } from "react-bootstrap";
@@ -32,6 +32,7 @@ import {
 
 const ChatWindow = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const { id } = useParams();
 
   const [clients, setClients] = useState(0);
@@ -103,11 +104,11 @@ const ChatWindow = () => {
 
   useEffect(() => {
     // only want to run this one first time after user, id are available
-    if (userId && id && authenticated) {
-      dispatch(updateUserInRoom(id, userId));
+    if (id && authenticated) {
+      dispatch(updateUserInRoom(id, history));
       dispatch(getIsLiked(id));
     }
-  }, [userId, id, authenticated, dispatch]);
+  }, [id, authenticated, dispatch, history]);
 
   useEffect(() => {
     if (userName && userId && authenticated) {

@@ -146,7 +146,7 @@ export const getCurrentRoom = (id) => (dispatch) => {
     });
 };
 
-export const updateUserInRoom = (roomId) => (dispatch) => {
+export const updateUserInRoom = (roomId, history) => (dispatch) => {
   axios
     .put(`${API_URL}/rooms/update/${roomId}/user`)
     .then((res) => {
@@ -159,6 +159,7 @@ export const updateUserInRoom = (roomId) => (dispatch) => {
         type: SET_ERRORS,
         payload: err.response.data.errors,
       });
+      history.push("/");
       toast(err.response.data.errors);
     });
 };
