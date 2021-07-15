@@ -92,6 +92,7 @@ const ChatWindow = () => {
 
   useEffect(() => {
     if (roomInfo && roomInfo.visibility === "public") {
+      setPasswordPopup(false);
       setAuthenticated(true);
     } else if (
       roomInfo &&
